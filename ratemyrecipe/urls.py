@@ -14,8 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from ratemyrecipeapp import views
 
 urlpatterns = [
+    # If an empty string is entered after the server name, then the user is mapped to the index (home) page
+    path('', views.index, name="index"),
+    
+    # This maps any URL beginning with 'ratemyrecipe/' to be handled by the ratemyrecipeapp urls
+    path('ratemyrecipe/', include('ratemyrecipeapp.urls')),
+    
+    # This is the url mapping for the admin page
     path('admin/', admin.site.urls),
 ]
