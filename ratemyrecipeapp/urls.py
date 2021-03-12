@@ -8,6 +8,7 @@ urlpatterns = [
         path('', views.index, name='index'),
         
         path('categories/', views.categories, name="categories"),
+        path('categories/<slug:category_name_slug>/', views.categories, name="chosen_category"),
         path('trending/', views.trending, name="trending"),
         path('signup/', views.sign_up, name="signup"),
         path('login/', views.login, name="login"),
