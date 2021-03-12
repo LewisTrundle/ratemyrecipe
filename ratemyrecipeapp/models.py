@@ -30,7 +30,7 @@ class Recipe(models.Model):
     directions = models.TextField(max_length=1000)
     is_vegan = models.BooleanField()
     cost = models.PositiveSmallIntegerField()
-    time_needed = models.IntegerField(help_text='HH:MM:SS format')
+    time_needed = models.DurationField(help_text='HH:MM:SS format')
 
     added_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
