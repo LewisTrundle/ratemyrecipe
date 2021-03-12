@@ -78,11 +78,11 @@
                 <h1 class="font-weight-light">{{Recipe.name}}</h1>
                 <!--recipe details would be here-->
                 <p>This is a template that is great for small businesses. It doesn't have too much fancy flare to it, but it makes a great use of the standard Bootstrap core components. Feel free to use this template for any project you want!</p>
-                <a class="btn btn-primary" href="{% url 'rate_my_recipe:account' %}">Go to Recipe</a>
+                <a class="btn btn-primary" href="{% url 'rate_my_recipe:category/{{Recipe}}' %}">Go to Recipe</a>
             </div>
             <div class="col-lg-9">
-                <a class="btn btn-primary" href="{% url 'rate_my_recipe:account' %}">Login</a>
-                <a class="btn btn-primary" href="{% url 'rate_my_recipe:account' %}">Sign Up</a>
+                <a class="btn btn-primary" href="{% url 'rate_my_recipe:Login' %}">Login</a>
+                <a class="btn btn-primary" href="{% url 'rate_my_recipe:SignUp' %}">Sign Up</a>
             </div>
         </div>
 
