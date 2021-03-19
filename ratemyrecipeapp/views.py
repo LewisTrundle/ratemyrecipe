@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from ratemyrecipeapp.models import Category, Recipe, Rating
-from math import random
+#from Random import random
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
@@ -14,18 +14,18 @@ def index(request):
     # Gets a list of every recipe
     recipes = list(Recipe.objects.all())
     # Picks a random recipe
-    ran_recipe = random.sample(recipes, 1)
+    #ran_recipe = random.sample(recipes, 1)
     
-    rating = Rating.objects.filter(recipe=ran_recipe)
+    #rating = Rating.objects.filter(recipe=ran_recipe)
     
     
     
     context_dict = {}
     context_dict['welcome'] = "Welcome to Rate My Recipe!"
-    context_dict['ran_recipe'] = ran_recipe
-    context_dict['rating'] = rating
+    #context_dict['ran_recipe'] = ran_recipe
+    #context_dict['rating'] = rating
     
-    return render(request, 'ratemyrecipeapp/index.html', context=context_dict)
+    return render(request, 'index.html', context=context_dict)
 
 
 
@@ -34,7 +34,7 @@ def categories(request):
     categories = list(Category.objects.all())
     
     context_dict = {}
-    return render(request, 'ratemyrecipeapp/categories.html', context=context_dict)
+    return render(request, 'categories.html', context=context_dict)
 
 
 
