@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
+from ratemyrecipeapp.forms import RecipeForm
 
 
 
@@ -68,6 +69,41 @@ def chosen_category(request, category_name_slug):
 
 def trending(request):
     pass
+
+
+
+def add_recipe(request, category_name_slug):
+    try:
+        category = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        category = None
+      
+    # if attempting to add page to category that doesn't exist
+    if category is None:
+        return redirect('/ratemyrecipe/')
+    
+    
+    # Gets the recipe form from forms.py
+    form = RecipeForm()
+    
+    if request.method == 'POST':
+        form = RecipeForm(request.POST)
+        
+        if form.is_valid():
+            if category:
+                recipe = form.save(commit=False)
+                recipe.category = category
+                recipe.save()
+                
+                return redirect('categories', kwargs={'category_name_slug': category_name_slug})
+            
+        else:
+            print(form.errors)
+            
+    context_dict = {'form': form, 'category': category}
+    return render(request, 'add_recipe.html', context=context_dict)
+    
+        
 
 
 
@@ -153,7 +189,7 @@ def login(request):
     # This would be HTTP GET
     else:
         # No context variables to pass to template system so blank dict. object
-        return render(request, 'ratemyrecipeapp/login.html')
+        return render(request, 'login.html')
     
     
 @login_required
