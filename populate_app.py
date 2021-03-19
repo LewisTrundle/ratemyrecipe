@@ -1,4 +1,4 @@
-import os 
+import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ratemyrecipe.settings')
 
 import django
@@ -19,7 +19,6 @@ def populate():
     # add the users
     users = r.added_by.unique()
     for u in users:
-        print(u)
         user = add_user(u)
         # get the recipes added by that users
         mask = r['added_by'] == u
@@ -47,9 +46,20 @@ def populate():
                     veg, cost, time, user
                 )
 
+    # load the csv with the ratings
+    r = pd.read_csv('ratings.csv')
+    for tup in r.itertuples(index=False, name=None):
+        rating = add_rating(tup)
+
     # print out the recipes we have added
+    print('Recipes added: ')
     for r in Recipe.objects.all():
-        print(r)
+        print(f'\t- {r}')
+
+    # print out the ratings
+    print('Ratings added: ')
+    for rating in Rating.objects.all():
+        print(f'\t- {rating}')
 
 
 def add_user(username):
@@ -78,15 +88,28 @@ def add_recipe(title, cat, ing, dirs, veg, cost, time, user):
     ...
 
 
-def add_rating():
-    # add ratings
-    ...
+def add_rating(tup):
+    title = tup[1]
+    rated_by = tup[2]
+    rating = tup[3]
+
+    recipe = Recipe.objects.filter(title=title).first()
+    user = User.objects.filter(username=rated_by).first()
+    rmr_user = UserProfile.objects.filter(user=user).first()
+    r = Rating.objects.get_or_create(
+        rating=rating,
+        rated_by=rmr_user,
+        recipe=recipe
+    )[0]
+    r.save()
+    return r
 
 
 def parse_time(time_str):
     t = datetime.strptime(time_str, "%H:%M:%S")
     delta = timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
     return delta
+
 
 if __name__ == '__main__':
     print('Starting RateMyRecipeApp population script...')
