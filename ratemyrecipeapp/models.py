@@ -35,7 +35,7 @@ class Recipe(models.Model):
     added_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.title} by {self.added_by}'
+        return f'{self.title} by {self.added_by} in {self.category}'
 
 
 class Rating(models.Model):
