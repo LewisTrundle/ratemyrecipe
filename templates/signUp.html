@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Login - Rate My Recipe</title>
+    <title>Sign Up - Rate My Recipe</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'bootstrap/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -63,17 +63,17 @@
 		<!-- call to action well -->
 		<div class="card text-white bg-secondary my-5 py-4 text-center">
 			<div class="card-body">
-			<h1 class="font-weight-light">Login</h1>
-			<p class="text-white m-0">Welcome back! Login to rate my recipes!</p>
-			<form id="login_form" method="post" action="{%url 'rango:login' %}">
+			<h1 class="font-weight-light">Sign Up</h1>
+			<p class="text-white m-0">Welcome to Rate My Recipe! Create your account here.</p>
+			<form id="user_form" method="post" action="{%url 'rango:signUp' %}" enctyoe="multipart/-form-data">
 				{% csrf_token %}
-				
-				Email:   <input type="text" name="username" value="" size="50" /><br>
-				Password:<input type="password" name="password" value="" size="50" /><br>
-				<input type="submit" style="background-color:orange" value="login" />
+				{{ user_form.as_p }}
+				{{profile_form.as_p }}
+	
+				<input type="submit" style="background-color:orange" name="submit" value="Sign Up" />
 			</form>
-			<p class="text-white m-0">Don't have an account?</p>
-			<a class="btn-primary" href="{% url 'ratemyrecipeapp:signUp' %}">Sign Up</a>
+			<p class="text-white m-0">Already have an account?</p>
+			<a class="btn-primary" href="{% url 'ratemyrecipeapp:login' %}">Login</a>
 			</div>
 		</div>
 		
