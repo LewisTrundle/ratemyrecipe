@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
@@ -13,7 +14,13 @@ class UserProfile(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=30, unique=True)
+    NAME_MAX_LENGTH = 30
+    name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -23,11 +30,14 @@ class Category(models.Model):
 
 
 class Recipe(models.Model):
-    title = models.CharField(max_length=100)  # does it have to be unique?
+    TITLE_MAX_LENGTH = 100
+    TEXT_MAX_LENGTH = 1000
+
+    title = models.CharField(max_length=TITLE_MAX_LENGTH)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
-    ingredients = models.TextField(max_length=1000)
-    directions = models.TextField(max_length=1000)
+    ingredients = models.TextField(max_length=TEXT_MAX_LENGTH)
+    directions = models.TextField(max_length=TEXT_MAX_LENGTH)
     is_vegan = models.BooleanField()
     cost = models.PositiveSmallIntegerField()
     time_needed = models.DurationField(help_text='HH:MM:SS format')
@@ -46,4 +56,4 @@ class Rating(models.Model):
     rated_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Rating for {self.recipe} by {self.rated_by}: {self.rating}'
+        return f'Rating for [{self.recipe}] by {self.rated_by}: {self.rating}'

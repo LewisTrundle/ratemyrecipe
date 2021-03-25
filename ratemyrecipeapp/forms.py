@@ -1,30 +1,80 @@
 from django import forms
-from ratemyrecipe.app.models import Recipe, Category, UserProfile, Rating,
+from django.contrib.auth.models import User
+from ratemyrecipeapp.models import Category, Recipe, Rating
+from ratemyrecipeapp.models import UserProfile
+
+
+class CategoryForm(forms.ModelForm):
+    name = forms.CharField(
+        max_length=Category.NAME_MAX_LENGTH,
+        help_text='Please enter the category name.'
+    )
+    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
+
+    class Meta:
+        model = Category
+        fields = ('name', )
+
 
 class RecipeForm(forms.ModelForm):
-    title = models.CharField(max_length=100,
-                             help_text="Please enter the name of the recipe.")
-    #category
-    ingredients = models.TextField()
-    directions = models.TextField()
-    is_vegan = models.BooleanField()
-    cost = models.PositiveSmallIntegerField()
-    time_needed = models.DurationField(help_text='HH:MM:SS format')
-    
+    title = forms.CharField(
+        max_length=Recipe.TITLE_MAX_LENGTH,
+        help_text='Recipe title.'
+    )
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.all(),
+        to_field_name='name',
+        empty_label='(Category)',
+        help_text='Select a category.'
+    )
+
+    ingredients = forms.CharField(
+        max_length=Recipe.TEXT_MAX_LENGTH,
+        widget=forms.Textarea,
+        empty_value='What ingredients do you need?'
+    )
+    directions = forms.CharField(
+        max_length=Recipe.TEXT_MAX_LENGTH,
+        widget=forms.Textarea(),
+        empty_value='How do you cook this amazing recipe?'
+    )
+    is_vegan = forms.BooleanField(required=False)
+    cost = forms.IntegerField(
+        min_value=0,
+        error_messages={'invalid': 'Please enter a positive number.'},
+    )
+    time_needed = forms.DurationField(
+        help_text='How long does it take to make this? HH:MM:SS',
+        # idk how to change this honestly
+    )
+
     class Meta:
         model = Recipe
-        fields = ('title',)
-        
-        
+        exclude = ('added_by', )
+
+
+class RatingForm(forms.ModelForm):
+    rating = forms.IntegerField(
+        min_value=1, max_value=1,
+        help_text='Rate this recipe!',
+        # see other options in django-starfield
+    )
+
+    class Meta:
+        model = Recipe
+        exclude = ('recipe', 'rated_by', )
+
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
-    
+
     class Meta:
         model = User
-        fields= ('username',)
-        
-        
+        fields = ('username', 'email', 'password', )
+
+
 class UserProfileForm(forms.ModelForm):
+
     class Meta:
         model = UserProfile
+        fields = ()

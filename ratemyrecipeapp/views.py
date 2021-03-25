@@ -1,16 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from ratemyrecipeapp.models import Category, Recipe, Rating
-<<<<<<< HEAD
 import random
-=======
-#from Random import random
->>>>>>> 4e04a2e9debe17ddc3ed54f93e4bba308beb1560
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
-from ratemyrecipeapp.forms import RecipeForm
+from ratemyrecipeapp.forms import CategoryForm, RecipeForm, RatingForm
+from ratemyrecipeapp.forms import UserForm, UserProfileForm
 
 
 def index(request):
@@ -18,7 +15,6 @@ def index(request):
     # Gets a list of every recipe
     recipes = list(Recipe.objects.all())
     # Picks a random recipe
-<<<<<<< HEAD
     ran_recipe = random.sample(recipes, 1)
 
     rating = Rating.objects.filter(recipe=ran_recipe)
@@ -27,21 +23,6 @@ def index(request):
     context_dict['welcome'] = "Welcome to Rate My Recipe!"
     context_dict['ran_recipe'] = ran_recipe
     context_dict['rating'] = rating
-=======
-    #ran_recipe = random.sample(recipes, 1)
-    
-    #rating = Rating.objects.filter(recipe=ran_recipe)
-    
-    
-    
-    context_dict = {}
-    context_dict['welcome'] = "Welcome to Rate My Recipe!"
-    #context_dict['ran_recipe'] = ran_recipe
-    #context_dict['rating'] = rating
-    
-    return render(request, 'index.html', context=context_dict)
-
->>>>>>> 4e04a2e9debe17ddc3ed54f93e4bba308beb1560
 
     return render(request, 'ratemyrecipeapp/index.html', context=context_dict)
 
@@ -84,45 +65,37 @@ def trending(request):
     pass
 
 
-<<<<<<< HEAD
-=======
-
 def add_recipe(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
     except Category.DoesNotExist:
         category = None
-      
+
     # if attempting to add page to category that doesn't exist
     if category is None:
         return redirect('/ratemyrecipe/')
-    
-    
+
     # Gets the recipe form from forms.py
     form = RecipeForm()
-    
+
     if request.method == 'POST':
         form = RecipeForm(request.POST)
-        
+
         if form.is_valid():
             if category:
                 recipe = form.save(commit=False)
                 recipe.category = category
                 recipe.save()
-                
+
                 return redirect('categories', kwargs={'category_name_slug': category_name_slug})
-            
+
         else:
             print(form.errors)
-            
+
     context_dict = {'form': form, 'category': category}
     return render(request, 'add_recipe.html', context=context_dict)
-    
-        
 
 
-
->>>>>>> 4e04a2e9debe17ddc3ed54f93e4bba308beb1560
 def sign_up(request):
     # Is registration successful?
     registered = False
@@ -204,15 +177,9 @@ def login(request):
     # This would be HTTP GET
     else:
         # No context variables to pass to template system so blank dict. object
-<<<<<<< HEAD
         return render(request, 'ratemyrecipeapp/login.html')
 
 
-=======
-        return render(request, 'login.html')
-    
-    
->>>>>>> 4e04a2e9debe17ddc3ed54f93e4bba308beb1560
 @login_required
 def user_logout(request):
     # Since we know user is logged in, we can just log them out
