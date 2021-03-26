@@ -1,30 +1,32 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.db.models import Avg
 from ratemyrecipeapp.models import Category, Recipe, Rating
-import random
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
-from ratemyrecipeapp.forms import CategoryForm, RecipeForm, RatingForm
-from ratemyrecipeapp.forms import UserForm, UserProfileForm
+from ratemyrecipeapp.forms import CategoryForm, RecipeForm, RatingForm, UserForm, UserProfileForm
 
 
 def index(request):
 
-    # Gets a list of every recipe
-    recipes = list(Recipe.objects.all())
     # Picks a random recipe
-    ran_recipe = random.sample(recipes, 1)
+    ran_recipe = Recipe.objects.order_by("?").first()
 
-    rating = Rating.objects.filter(recipe=ran_recipe)
+    # Gets all the ratings associated with that recipe
+    ratings = Rating.objects.filter(recipe=ran_recipe)
+    # Calculates the avergae rating and stores as a dictionary
+    avg_rating_dict = ratings.aggregate(Avg('rating'))
+    # Gets the value in the dict
+    avg_rating = avg_rating_dict['rating__avg']
+
 
     context_dict = {}
-    context_dict['welcome'] = "Welcome to Rate My Recipe!"
-    context_dict['ran_recipe'] = ran_recipe
-    context_dict['rating'] = rating
+    context_dict['Recipe'] = ran_recipe
+    context_dict['rating'] = avg_rating
 
-    return render(request, 'ratemyrecipeapp/index.html', context=context_dict)
+    return render(request, 'index.html', context=context_dict)
 
 
 def categories(request):
@@ -119,11 +121,6 @@ def sign_up(request):
             profile = profile_form.save(commit=False)
             profile.user = user
 
-            # If profile pic provided, get it from input form
-            # and put it in UserProfile model
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-
             # Saves UserProfile instance
             profile.save()
 
@@ -141,7 +138,7 @@ def sign_up(request):
 
     # Render template depending on context
     return render(request,
-                  'ratemyrecipeapp/register.html',
+                  'signUp.html',
                   context={'user_form': user_form,
                            'profile_form': profile_form,
                            'registered': registered})
@@ -177,7 +174,7 @@ def login(request):
     # This would be HTTP GET
     else:
         # No context variables to pass to template system so blank dict. object
-        return render(request, 'ratemyrecipeapp/login.html')
+        return render(request, 'login.html')
 
 
 @login_required

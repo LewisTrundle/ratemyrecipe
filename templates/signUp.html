@@ -32,7 +32,7 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
 					 <li class="nav-item">
-                        			<a class="nav-link" href="{% url 'ratemyrecipeapp:home' %}">Home</a>
+                        			<a class="nav-link" href="{% url 'ratemyrecipeapp:index' %}">Home</a>
                    			 </li>
                    			 <li class="nav-item">
                    			 	<a class="nav-link" href="{% url 'ratemyrecipeapp:categories' %}">Categories</a>
@@ -64,14 +64,19 @@
 		<div class="card text-white bg-secondary my-5 py-4 text-center">
 			<div class="card-body">
 			<h1 class="font-weight-light">Sign Up</h1>
+			{% if registered %}
+			<strong>Thank you for registering!</strong>
+			<a href="{% url 'ratemyrecipeapp:index' %}">Return to the homepage.</a><br />
+			{% else %}
 			<p class="text-white m-0">Welcome to Rate My Recipe! Create your account here.</p>
-			<form id="user_form" method="post" action="{%url 'rango:signUp' %}" enctyoe="multipart/-form-data">
+			<form id="user_form" method="post" action="{%url 'ratemyrecipeapp:signUp' %}" enctyoe="multipart/-form-data">
 				{% csrf_token %}
 				{{ user_form.as_p }}
 				{{profile_form.as_p }}
 	
 				<input type="submit" style="background-color:orange" name="submit" value="Sign Up" />
 			</form>
+			{% endif %}
 			<p class="text-white m-0">Already have an account?</p>
 			<a class="btn-primary" href="{% url 'ratemyrecipeapp:login' %}">Login</a>
 			</div>

@@ -32,7 +32,7 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
 					 <li class="nav-item">
-                        			<a class="nav-link" href="{% url 'ratemyrecipeapp:home' %}">Home</a>
+                        			<a class="nav-link" href="{% url 'ratemyrecipeapp:index' %}">Home</a>
                    			 </li>
                    			 <li class="nav-item">
                    			 	<a class="nav-link" href="{% url 'ratemyrecipeapp:categories' %}">Categories</a>
@@ -65,7 +65,7 @@
 			<div class="card-body">
 			<h1 class="font-weight-light">Login</h1>
 			<p class="text-white m-0">Welcome back! Login to rate my recipes!</p>
-			<form id="login_form" method="post" action="{%url 'rango:login' %}">
+			<form id="login_form" method="post" action="{%url 'ratemyrecipeapp:login' %}">
 				{% csrf_token %}
 				
 				Email:   <input type="text" name="username" value="" size="50" /><br>

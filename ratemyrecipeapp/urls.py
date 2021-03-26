@@ -12,6 +12,7 @@ urlpatterns = [
         path('trending/', views.trending, name="trending"),
         path('signup/', views.sign_up, name="signUp"),
         path('login/', views.login, name="login"),
+        path('logout/', views.logout, name='logout'),
         path('account/', views.my_account, name="account"),
 ]
 
