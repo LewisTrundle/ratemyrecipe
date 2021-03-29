@@ -12,8 +12,7 @@ from ratemyrecipeapp.forms import CategoryForm, RecipeForm, RatingForm, UserForm
 def index(request):
 
     # Picks a random recipe
-    ran_recipe = Recipe.objects.order_by("?").first()
-
+    ran_recipe = Recipe.objects.order_by('?').first()
     # Gets all the ratings associated with that recipe
     ratings = Rating.objects.filter(recipe=ran_recipe)
     # Calculates the avergae rating and stores as a dictionary
@@ -33,6 +32,11 @@ def categories(request):
     categories = list(Category.objects.all())
 
     context_dict = {}
+    context_dict['categories']=categories
+    context_dict['urls']={}
+    for c in categories:
+        context_dict['urls'][c]=str(c.name+".jpg")
+
     return render(request, 'categories.html', context=context_dict)
 
 

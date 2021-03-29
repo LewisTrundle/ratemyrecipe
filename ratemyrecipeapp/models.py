@@ -18,6 +18,7 @@ class Category(models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     slug = models.SlugField(unique=True)
 
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Category, self).save(*args, **kwargs)
@@ -26,7 +27,8 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
 
     def __str__(self):
-        return self.name
+        return self.name 
+
 
 
 class Recipe(models.Model):
@@ -41,6 +43,7 @@ class Recipe(models.Model):
     is_vegan = models.BooleanField()
     cost = models.PositiveSmallIntegerField()
     time_needed = models.DurationField(help_text='HH:MM:SS format')
+
 
     added_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
