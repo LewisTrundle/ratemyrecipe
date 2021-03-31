@@ -192,7 +192,6 @@ def user_logout(request):
 def my_account(request):
     pass
 
-
 def my_recipes(request):
     pass
 

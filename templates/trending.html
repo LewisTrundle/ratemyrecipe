@@ -21,50 +21,58 @@
 
 <body>
 
-	<!-- Navigation -->
-	<nav class="navbar navbar-expand lg avbar-dark bg-dark fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="#">Rate My Recipe</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'ratemyrecipesapp:index' %}">Home</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'ratemyrecipeapp:categories' %}">Categories</a>
-                   			</li>
-                    			<li class="nav-item active">
-                        			<a class="nav-link" href="#">
-                            			Trending
-                            			<span class="sr-only">(current)</span>
-                        			</a>
-                    			</li>
-                    			<li class="nav-item">
-                        			<a class="nav-link" href="{% url 'ratemyrecipeapp:account' %}">My Account</a>
-                   			</li>
-                		</ul>
-            		</div>
-        	</div>
-    	</nav>
-    	
+   <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'ratemyrecipeapp:trending' %}">Rate My Recipe</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                    	<a class="nav-link" href="{% url 'ratemyrecipeapp:index' %}">Home</a>
+                       
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ratemyrecipeapp:categories' %}">Categories</a>
+                    </li>
+                    <li class="nav-item active">
+                    	<a class="nav-link" href="{% url 'ratemyrecipeapp:trending' %}">
+                            Trending
+                            <span class="sr-only">(current)</span>
+                        </a>
+                        
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ratemyrecipeapp:account' %}">My Account</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
     	<!-- Page content -->
     	<div class="container">
     		<!-- Heading Row -->
     		<div class="card text-white bg-secondary my-5 py-4 text-center">
     			<div class="card-body">
     			<h1 class="text-white m-0">Trending right now: {{ Recipe.title }} </h1>
-    			<p class="text-white m-0">{{ rating }}</p>
-    			<p class="text-white m-0">{{ Recipe.is_vegan }}<p>
-    			<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:{{ Recipe.category }}' %}">Go back to category</a>
+    			<p class="text-white m-0">Rating:{{ rating }}</p>
+    			<p class="text-white m-0">Is vegan: {{ Recipe.is_vegan }}<p>
+    			
     			</div>
     		</div>
+    		
     		<div class="row align-items-center my-5">
     			<img class="img-fluid rounded mb-4 mb-lg-0" src="http://placehold.it/900x400" alt="">
+    		</div>
+    		<div>
     			<h3>Ingredients:</h3>
     				<p class="text-white m-0">{{ Recipe.ingredients }}</p>
+    		</div>
+    		<div>
     			<h3>Method:</h3>
     				<p class="text-white m-0">Time: {{ Recipe.time_needed }}</p>
     				<p class="text-white m-0">{{ Recipe.directions }}</p>
