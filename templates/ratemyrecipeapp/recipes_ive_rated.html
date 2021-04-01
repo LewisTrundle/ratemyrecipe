@@ -52,40 +52,27 @@
         </div>
     </nav>
 
-			
-
-	<!-- Page Content -->
+<!-- Page Content -->
 		<div class="container">
 			<div class="card text-white bg-secondary my-5 py-4 text-center">
 			<div class="card-body">
 		
-			{% if user.is_authenticated %}
-			
-				<p class="text-white m-0">Welcome to Rate My Recipe, {{ user.username }}!</p>
-				<div>
-				<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:my_recipes' %}">My Recipes</a>	
-				</div>
-				<div>
-				<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:recipes_ive_rated' %}">My Ratings</a>	
-					
-				</div>
-				
-				<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:logout' %}">Logout</a>
-				
+			<ul>
+			{% if ratings %}
+				{% for r in ratings %}
+				<li>
+				<a href="{% url 'ratemyrecipe:chosen_recipe' r.slug %}">{{ r.title }}</a>
+				</li>
+				{% endfor %}
 			{% else %}
-				
-				<p class="text-white m-0">Welcome to Rate My Recipe!</p>
-				<p class="text-white m-0">Log In or Sign up here!</p>
-				<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:login' %}">Login</a>
-				<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:signUp' %}">Sign Up</a>
-				
+				<p class="m-0 text-center text-white">You haven't rated any recipes.</p>
 			{% endif %}
 		
 			</div>
 			</div>	
 		</div>	
 				 
-		
+			
 	<!-- /.container -->
 	<!-- Footer -->
         <footer class="py-5 bg-dark">
@@ -104,4 +91,3 @@
 </html>
 			
 		
-	

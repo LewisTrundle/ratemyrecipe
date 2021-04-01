@@ -224,12 +224,30 @@ def user_logout(request):
 
 
 def my_recipes(request):
+    if request.method == 'GET':
+        # Get username and password from login form
+        username = request.GET.get('username')
+        password = request.GET.get('password')
+
+        # If username/password combination valid, User object is returned
+    user = authenticate(username=username, password=password)
+    recipes=Recipe.objects.filter(added_by=user )
     context_dict = {}
+    context_dict[recipes]=recipes
     
     return render(request, 'ratemyrecipeapp/my_recipes.html', context=context_dict)
 
 
 def recipes_ive_rated(request):
+    if request.method == 'GET':
+        # Get username and password from login form
+        username = request.GET.get('username')
+        password = request.GET.get('password')
+
+        # If username/password combination valid, User object is returned
+    user = authenticate(username=username, password=password)
+    ratings=Rating.objects.filter(rated_by=user )
     context_dict = {}
+    context_dict[ratings]=ratings
     
     return render(request, 'ratemyrecipeapp/recipes_ive_rated.html', context=context_dict)
