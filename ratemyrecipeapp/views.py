@@ -156,7 +156,7 @@ def sign_up(request):
 
     # Render template depending on context
     return render(request,
-                  'ratemyrecipeapp/signUp.html',
+                  'ratemyrecipeapp/sign_up.html',
                   context={'user_form': user_form,
                            'profile_form': profile_form,
                            'registered': registered})
