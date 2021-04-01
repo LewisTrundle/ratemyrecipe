@@ -52,7 +52,6 @@ def chosen_category(request, category_name_slug):
         # Retreives all associated recipes
         # filter() returns list of recipes objects or empty list
         recipes = Recipe.objects.filter(category=category)
-
         # Adds results list to template context under name recipes
         context_dict['recipes'] = recipes
         # Adds category object from database to dict - used to verify category exists
@@ -70,7 +69,6 @@ def chosen_category(request, category_name_slug):
 
 def chosen_recipe(request, recipe_name_slug):
     context_dict = {}
-    
     recipe = Recipe.objects.get(slug=recipe_name_slug)
     context_dict['recipe'] = recipe
     
@@ -87,7 +85,7 @@ def trending(request):
 def my_account(request):
     context_dict = {}
     
-    return render(request, 'ratemyrecipeapp/myaccount.html', context=context_dict)
+    return render(request, 'ratemyrecipeapp/my_account.html', context=context_dict)
 
 
 def add_recipe(request, category_name_slug):
