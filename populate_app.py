@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 
 import pandas as pd
 from datetime import datetime, timedelta
+import random
 
 def populate():
 
@@ -41,15 +42,20 @@ def populate():
                 time_str = r_info['time']
                 time = parse_time(time_str)
 
-                add_recipe(
+                new_recipe = add_recipe(
                     r_title, category, ing, dirs,
                     veg, cost, time, user
                 )
 
-    # load the csv with the ratings
-    r = pd.read_csv('ratings.csv')
-    for tup in r.itertuples(index=False, name=None):
-        rating = add_rating(tup)
+    #  add the ratings to the recipes
+    recipes = Recipe.objects.all()
+    users = UserProfile.objects.all()
+    for rec in recipes:
+        for usr in users:
+            title = rec.title
+            rated_by = usr.__str__()
+            rating = random.randint(1, 5)
+            add_rating(title, rated_by, rating)
 
     # print out the recipes we have added
     print('Recipes added: ')
@@ -88,11 +94,7 @@ def add_recipe(title, cat, ing, dirs, veg, cost, time, user):
     ...
 
 
-def add_rating(tup):
-    title = tup[1]
-    rated_by = tup[2]
-    rating = tup[3]
-
+def add_rating(title, rated_by, rating):
     recipe = Recipe.objects.filter(title=title).first()
     user = User.objects.filter(username=rated_by).first()
     rmr_user = UserProfile.objects.filter(user=user).first()
