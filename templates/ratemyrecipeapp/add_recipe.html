@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 {% load staticfiles %}
 
@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Home - Rate My Recipe</title>
+    <title>Add {{category.name}} Recipe - Rate My Recipe</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'bootstrap/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -33,7 +33,6 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'ratemyrecipeapp:index' %}">
                             Home
-                            <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -62,42 +61,28 @@
                 <!--Relies on user model-->
                 <p class="text-white m-0">Hi {{ user.username }}! </br>
                 Create a new recipe here.</p>
-     
                 <a class="btn btn-primary" href="{% url 'ratemyrecipeapp:account' %}">Go to my account</a>
-                {% else %}
-                <p class="text-white m-0">Sign up or log in now to create a recipe!</p>
                 {% endif %}
             </div>
         </div>
         <div class="row align-items-center my-5">
-           <form>
+               <div class="form-group">
+                   <form class="form_add_recipe" role="form" method="post" action=".">
+                       <label for="exampleFormControlInput1">Recipe Name</label>
+                       <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+               </div>
   <div class="form-group">
-    <label for="exampleFormControlInput1">Email address</label>
-    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlSelect1">Example select</label>
+    <label for="exampleFormControlSelect1">What category is this recipe?</label>
     <select class="form-control" id="exampleFormControlSelect1">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
+        {% for c in categories %}
+            <option>{{c.name}}</option>
+        {% endfor %}
+
     </select>
   </div>
   <div class="form-group">
-    <label for="exampleFormControlSelect2">Example multiple select</label>
-    <select multiple class="form-control" id="exampleFormControlSelect2">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlTextarea1">Example textarea</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    <label for="exampleFormControlTextarea1">Ingredients</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
   </div>
 </form>
         </div>

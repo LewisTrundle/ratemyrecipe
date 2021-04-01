@@ -33,9 +33,6 @@ def categories(request):
 
     context_dict = {}
     context_dict['categories']=categories
-    context_dict['urls']={}
-    for c in categories:
-        context_dict['urls'][c]=str(c.name+".jpg")
 
     return render(request, 'ratemyrecipeapp/categories.html', context=context_dict)
 

@@ -19,7 +19,7 @@ class CategoryForm(forms.ModelForm):
 class RecipeForm(forms.ModelForm):
     title = forms.CharField(
         max_length=Recipe.TITLE_MAX_LENGTH,
-        help_text='Recipe title.'
+        help_text='Recipe title'
     )
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(),
