@@ -37,6 +37,7 @@ class Recipe(models.Model):
 
     title = models.CharField(max_length=TITLE_MAX_LENGTH)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    slug = models.SlugField(unique=True)
 
     ingredients = models.TextField(max_length=TEXT_MAX_LENGTH)
     directions = models.TextField(max_length=TEXT_MAX_LENGTH)
@@ -46,6 +47,13 @@ class Recipe(models.Model):
 
 
     added_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Recipe, self).save(*args, **kwargs)
+        
+    class Meta:
+        verbose_name_plural = 'recipes'
 
     def __str__(self):
         return f'{self.title} by {self.added_by} in {self.category}'

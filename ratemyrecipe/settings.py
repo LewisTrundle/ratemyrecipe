@@ -28,6 +28,9 @@ SECRET_KEY = 'fsp(jwpls=9r$2teno0tco1_$!&(ln9wg97u@*sft1!5)!5lfu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+LOGIN_URL = 'ratemyrecipeapp:login'
+
 ALLOWED_HOSTS = []
 
 

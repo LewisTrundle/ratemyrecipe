@@ -25,7 +25,7 @@ def index(request):
     context_dict['Recipe'] = ran_recipe
     context_dict['rating'] = avg_rating
 
-    return render(request, 'index.html', context=context_dict)
+    return render(request, 'ratemyrecipeapp/index.html', context=context_dict)
 
 
 def categories(request):
@@ -37,7 +37,7 @@ def categories(request):
     for c in categories:
         context_dict['urls'][c]=str(c.name+".jpg")
 
-    return render(request, 'categories.html', context=context_dict)
+    return render(request, 'ratemyrecipeapp/categories.html', context=context_dict)
 
 
 def chosen_category(request, category_name_slug):
@@ -67,8 +67,27 @@ def chosen_category(request, category_name_slug):
     return render(request, 'ratemyrecipeapp/chosen_category.html', context=context_dict)
 
 
+
+def chosen_recipe(request, recipe_name_slug):
+    context_dict = {}
+    
+    recipe = Recipe.objects.get(slug=recipe_name_slug)
+    context_dict['recipe'] = recipe
+    
+    return render(request, 'ratemyrecipeapp/chosen_recipe.html', context=context_dict)
+
+
+
 def trending(request):
-    pass
+    context_dict = {}
+    
+    return render(request, 'ratemyrecipeapp/trending.html', context=context_dict)
+    
+    
+def my_account(request):
+    context_dict = {}
+    
+    return render(request, 'ratemyrecipeapp/myaccount.html', context=context_dict)
 
 
 def add_recipe(request, category_name_slug):
@@ -99,7 +118,7 @@ def add_recipe(request, category_name_slug):
             print(form.errors)
 
     context_dict = {'form': form, 'category': category}
-    return render(request, 'add_recipe.html', context=context_dict)
+    return render(request, 'ratemyrecipeapp/add_recipe.html', context=context_dict)
 
 
 def sign_up(request):
@@ -142,13 +161,13 @@ def sign_up(request):
 
     # Render template depending on context
     return render(request,
-                  'signUp.html',
+                  'ratemyrecipeapp/signUp.html',
                   context={'user_form': user_form,
                            'profile_form': profile_form,
                            'registered': registered})
 
 
-def login(request):
+def user_login(request):
     # If request is HTTP POST, try to pull relevant info
     if request.method == 'POST':
         # Get username and password from login form
@@ -178,7 +197,7 @@ def login(request):
     # This would be HTTP GET
     else:
         # No context variables to pass to template system so blank dict. object
-        return render(request, 'login.html')
+        return render(request, 'ratemyrecipeapp/login.html')
 
 
 @login_required
@@ -188,9 +207,6 @@ def user_logout(request):
     # Returns user to homepage
     return redirect(reverse('ratemyrecipeapp:index'))
 
-
-def my_account(request):
-    pass
 
 def my_recipes(request):
     pass
