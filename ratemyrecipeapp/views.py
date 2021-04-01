@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from ratemyrecipeapp.forms import CategoryForm, RecipeForm, RatingForm, UserForm, UserProfileForm
+from ratemyrecipe.settings import STATIC_DIR
+import os
 
 
 def index(request):
@@ -30,9 +32,15 @@ def index(request):
 
 def categories(request):
     categories = list(Category.objects.all())
+    
+    files = os.listdir(os.path.join(STATIC_DIR, "images/Categories/"))
+    
+    file_names = ["American.jpg", "Asian.jpg"]
 
     context_dict = {}
-    context_dict['categories']=categories
+    context_dict['categories'] = categories
+    context_dict['files'] = files
+    context_dict['file_names'] = file_names
 
     return render(request, 'ratemyrecipeapp/categories.html', context=context_dict)
 
@@ -66,8 +74,14 @@ def chosen_category(request, category_name_slug):
 
 def chosen_recipe(request, recipe_name_slug):
     context_dict = {}
-    recipe = Recipe.objects.get(slug=recipe_name_slug)
-    context_dict['recipe'] = recipe
+    
+    try:
+        recipe = Recipe.objects.get(slug=recipe_name_slug)
+        context_dict['recipe'] = recipe
+        
+        
+    except:
+        context_dict['recipe'] = None
     
     return render(request, 'ratemyrecipeapp/chosen_recipe.html', context=context_dict)
 
@@ -75,6 +89,10 @@ def chosen_recipe(request, recipe_name_slug):
 
 def trending(request):
     context_dict = {}
+    
+    pop_recipes = Recipe.objects.order_by('-rating')[:5]
+    
+    context_dict['recipes'] = pop_recipes
     
     return render(request, 'ratemyrecipeapp/trending.html', context=context_dict)
     
@@ -202,10 +220,16 @@ def user_logout(request):
     # Returns user to homepage
     return redirect(reverse('ratemyrecipeapp:index'))
 
+    
+
 
 def my_recipes(request):
-    pass
+    context_dict = {}
+    
+    return render(request, 'ratemyrecipeapp/my_recipes.html', context=context_dict)
 
 
 def recipes_ive_rated(request):
-    pass
+    context_dict = {}
+    
+    return render(request, 'ratemyrecipeapp/recipes_ive_rated.html', context=context_dict)

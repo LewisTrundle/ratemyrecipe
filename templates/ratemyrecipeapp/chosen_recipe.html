@@ -55,10 +55,10 @@
     		<!-- Heading Row -->
     		<div class="card text-white bg-secondary my-5 py-4 text-center">
     			<div class="card-body">
-    			<h1 class="text-white m-0"> {{ Recipe.title }} </h1>
-    			<p class="text-white m-0">Rating:{{ rating }}</p>
-    			<p class="text-white m-0">Is vegan:{{ Recipe.is_vegan }}<p>
-    			<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:{{ Recipe.category }}' %}">Go back to category</a>
+    			<h1 class="text-white m-0"> {{ recipe.title }} </h1>
+    			<p class="text-white m-0">Rating: {{ recipe.rating }}</p>
+    			<p class="text-white m-0">Is vegan: {{ recipe.is_vegan }}<p>
+    			<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:chosen_category' recipe.category.slug %}">Go back to category</a>
     			</div>
     		</div>
     		<div class="row align-items-center my-5">
@@ -66,12 +66,12 @@
     		</div>
     		<div>
     			<h3>Ingredients:</h3>
-    				<p class="text-white m-0">{{ Recipe.ingredients }}</p>
+    				<p class="text-white m-0">{{ recipe.ingredients }}</p>
     		</div>
     		<div>
     			<h3>Method:</h3>
-    				<p class="text-white m-0">Time: {{ Recipe.time_needed }}</p>
-    				<p class="text-white m-0">{{ Recipe.directions }}</p>
+    				<p class="text-white m-0">Time: {{ recipe.time_needed }}</p>
+    				<p class="text-white m-0">{{ recipe.directions }}</p>
     				
     		</div>
     	</div>
