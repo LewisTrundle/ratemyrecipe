@@ -59,33 +59,68 @@
             <div class="card-body">
                 {% if user.is_authenticated %}
                 <!--Relies on user model-->
-                <p class="text-white m-0">Hi {{ user.username }}! </br>
-                Create a new recipe here.</p>
+                <p class="text-white m-0">
+                    Hi {{ user.username }}! </br>
+                    Create a new recipe here.
+                </p>
                 <a class="btn btn-primary" href="{% url 'ratemyrecipeapp:account' %}">Go to my account</a>
                 {% endif %}
             </div>
         </div>
-        <div class="row align-items-center my-5">
-               <div class="form-group">
-                   <form class="form_add_recipe" role="form" method="post" action=".">
-                       <label for="exampleFormControlInput1">Recipe Name</label>
-                       <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-               </div>
-  <div class="form-group">
-    <label for="exampleFormControlSelect1">What category is this recipe?</label>
-    <select class="form-control" id="exampleFormControlSelect1">
-        {% for c in categories %}
-            <option>{{c.name}}</option>
-        {% endfor %}
 
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlTextarea1">Ingredients</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
-  </div>
-</form>
-        </div>
+        <form class="form_add_recipe" role="form" method="post" action=".">
+
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Recipe Name</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">What category is this recipe?</label>
+                <select class="form-control" id="exampleFormControlSelect1">
+                    {% for c in categories %}
+                    <option>{{c.name}}</option>
+                    {% endfor %}
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Ingredients</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Directions</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline1">Vegetarian</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline2">Vegan</label>
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput2">Cost</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="£0.00">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput3">Time taken to make this recipe</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput3" placeholder="HH:MM:SS">
+                </div>
+                <div class="form-group">
+                    <label for="file">Image for this recipe</label></br>
+                    <input type="file" id="myFile" name="filename">
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Submit Recipe</button>
+                    </div>
+                </div>
+            </div>
+        </form>
 
         <!-- /.container -->
         <!-- Footer -->

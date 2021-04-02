@@ -143,8 +143,13 @@ def add_recipe(request, category_name_slug):
 
         else:
             print(form.errors)
+    
+    categories = list(Category.objects.all())
+    context_dict = {} 
+    context_dict['form']=form
+    context_dict['category']=category
+    context_dict['categories']=categories
 
-    context_dict = {'form': form, 'category': category}
     return render(request, 'ratemyrecipeapp/add_recipe.html', context=context_dict)
 
 
