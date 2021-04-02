@@ -15,7 +15,7 @@ import random
 def populate():
 
     # load the csv with the recipes
-    r = pd.read_csv('recipes.csv')
+    r = pd.read_csv('recipes.tsv', sep='\t')
 
     # add the users
     users = r.added_by.unique()
