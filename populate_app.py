@@ -38,13 +38,14 @@ def populate():
                 ing = r_info['ingredients']
                 dirs = r_info['directions']
                 veg = r_info['is_vegan']
+                vegt = r_info['is_vegetarian']
                 cost = r_info['cost']
                 time_str = r_info['time']
                 time = parse_time(time_str)
 
                 new_recipe = add_recipe(
                     r_title, category, ing, dirs,
-                    veg, cost, time, user
+                    veg, vegt, cost, time, user
                 )
 
     #  add the ratings to the recipes
@@ -82,10 +83,11 @@ def add_category(cat_name):
     return c
 
 
-def add_recipe(title, cat, ing, dirs, veg, cost, time, user):
+def add_recipe(title, cat, ing, dirs, veg, vegt, cost, time, user):
     r = Recipe.objects.get_or_create(
         title=title, category=cat,
-        ingredients=ing, directions=dirs, is_vegan=veg,
+        ingredients=ing, directions=dirs, 
+        is_vegan=veg, is_vegetarian=vegt,
         cost=cost, time_needed=time,
         added_by=user
     )[0]
