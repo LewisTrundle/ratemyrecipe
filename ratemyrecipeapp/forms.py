@@ -28,8 +28,7 @@ class RecipeForm(forms.ModelForm):
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(),
         to_field_name='name',
-        empty_label='(Category)',
-        help_text='Select a category.'
+        help_text='Select a category'
     )
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
@@ -43,19 +42,23 @@ class RecipeForm(forms.ModelForm):
         widget=forms.Textarea(),
         empty_value='How do you cook this amazing recipe?'
     )
-    is_vegan = forms.BooleanField(required=False)
-    is_vegetarian = forms.BooleanField(required=False)
+
+    is_vegan = forms.BooleanField(required=False,
+                                  help_text="Vegan Recipe")
+    is_vegetarian = forms.BooleanField(required=False,
+                                       help_text="Vegetarian Recipe")
     cost = forms.IntegerField(
         min_value=0,
+        help_text='How much does this recipe cost?',
         error_messages={'invalid': 'Please enter a positive number.'},
     )
     time_needed = forms.DurationField(
-        help_text='How long does it take to make this? HH:MM:SS',
+        help_text='How long does it take to make this? (HH:MM:SS)',
         # idk how to change this honestly
     )
 
     picture = forms.ImageField(
-        help_text='Insert a photo of your recipe!'
+        help_text='Insert a photo of your recipe:'
     )
 
     class Meta:

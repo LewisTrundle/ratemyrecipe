@@ -139,7 +139,7 @@ def add_recipe(request, category_name_slug):
                 recipe.category = category
                 recipe.save()
 
-                return redirect('categories', kwargs={'category_name_slug': category_name_slug})
+                return redirect('categories')
 
         else:
             print(form.errors)
