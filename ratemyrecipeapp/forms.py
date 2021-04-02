@@ -11,9 +11,13 @@ class CategoryForm(forms.ModelForm):
     )
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
+    picture = forms.ImageField(
+        help_text='Insert a category image here.'
+    )
+
     class Meta:
         model = Category
-        fields = ('name', )
+        fields = ('name', 'picture', )
 
 
 class RecipeForm(forms.ModelForm):
@@ -27,6 +31,7 @@ class RecipeForm(forms.ModelForm):
         empty_label='(Category)',
         help_text='Select a category.'
     )
+    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     ingredients = forms.CharField(
         max_length=Recipe.TEXT_MAX_LENGTH,
@@ -39,6 +44,7 @@ class RecipeForm(forms.ModelForm):
         empty_value='How do you cook this amazing recipe?'
     )
     is_vegan = forms.BooleanField(required=False)
+    is_vegetarian = forms.BooleanField(required=False)
     cost = forms.IntegerField(
         min_value=0,
         error_messages={'invalid': 'Please enter a positive number.'},
@@ -54,7 +60,7 @@ class RecipeForm(forms.ModelForm):
 
     class Meta:
         model = Recipe
-        exclude = ('added_by', )
+        exclude = ('added_by', 'slug', )
 
 
 class RatingForm(forms.ModelForm):

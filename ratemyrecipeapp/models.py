@@ -18,6 +18,10 @@ class Category(models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     slug = models.SlugField(unique=True)
 
+    picture = models.ImageField(
+        upload_to='category_images', blank=True, null=True
+    )
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Category, self).save(*args, **kwargs)
@@ -44,6 +48,7 @@ class Recipe(models.Model):
     ingredients = models.TextField(max_length=TEXT_MAX_LENGTH)
     directions = models.TextField(max_length=TEXT_MAX_LENGTH)
     is_vegan = models.BooleanField()
+    is_vegetarian = models.BooleanField()
     cost = models.PositiveSmallIntegerField()
     time_needed = models.DurationField(help_text='HH:MM:SS format')
 
