@@ -15,7 +15,8 @@ urlpatterns = [
         
         # URL for chosen_recipe page
         # This one works but gives the wrong url?
-        #path('chosen_recipe/<slug:recipe_name_slug>/', views.chosen_recipe, name="chosen_recipe"),
+        
+        path('random_recipe/<slug:recipe_name_slug>/', views.random_recipe, name="random_recipe"),
         # Don't know why this one doesn't work?
         path('categories/<slug:category_name_slug>/<slug:recipe_name_slug>/', views.chosen_recipe, name="chosen_recipe"),
         

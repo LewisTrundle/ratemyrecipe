@@ -78,7 +78,7 @@
             <div class="col-lg-5">
                 <h1 class="font-weight-light">{{ Recipe.title }}</h1>
 				<h3>{{rating}}</h3>
-                <a class="btn btn-primary" href="{% url 'ratemyrecipeapp:chosen_recipe' Recipe.slug %}">Go to Recipe</a>
+                <a class="btn btn-primary" href="{% url 'ratemyrecipeapp:random_recipe' Recipe.slug %}">Go to Recipe</a>
             </div>
         </div>
         <div class="col-md-4 mb-5">
