@@ -85,6 +85,19 @@ def chosen_recipe(request, recipe_name_slug):
     
     return render(request, 'ratemyrecipeapp/chosen_recipe.html', context=context_dict)
 
+def chosen_recipe(request, category_name_slug, recipe_name_slug):
+    context_dict = {}
+    
+    try:
+        recipe = Recipe.objects.get(slug=recipe_name_slug)
+        context_dict['recipe'] = recipe
+        
+        
+    except:
+        context_dict['recipe'] = None
+    
+    return render(request, 'ratemyrecipeapp/chosen_recipe.html', context=context_dict)
+
 
 
 def trending(request):
