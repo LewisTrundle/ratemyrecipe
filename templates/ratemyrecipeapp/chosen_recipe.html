@@ -57,7 +57,8 @@
     			<div class="card-body">
     			<h1 class="text-white m-0"> {{ recipe.title }} </h1>
     			<p class="text-white m-0">Rating: {{ recipe.rating }}</p>
-    			<p class="text-white m-0">Is vegan: {{ recipe.is_vegan }}<p>
+    			<p class="text-white m-0">Is vegan: {{ recipe.is_vegan }}</p>
+    			<p class="text-white m-0">Is vegetarian: {{ recipe.is_vegetarian }}</p>
     			<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:chosen_category' recipe.category.slug %}">Go back to category</a>
     			</div>
     		</div>
@@ -66,6 +67,7 @@
     		</div>
     		<div>
     			<h3>Ingredients:</h3>
+    				<p class="text-white m-0">Cost:{{ recipe.cost }}</p>
     				<p class="text-white m-0">{{ recipe.ingredients }}</p>
     		</div>
     		<div>
