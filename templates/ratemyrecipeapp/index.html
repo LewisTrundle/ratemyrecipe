@@ -70,7 +70,9 @@
         <div class="row align-items-center my-5">
             <div class="col-lg-7">
                 <h1 class="font-weight-light">Why not try...</h1>
-                <img class="img-fluid rounded mb-4 mb-lg-0" src="{{ Recipe.image }}" alt="">
+                <img class="img-fluid rounded mb-4 mb-lg-0" src="media/{{ Recipe.picture }}" width="900" height="400" alt="">
+
+
             </div>
 
 
@@ -78,7 +80,7 @@
             <div class="col-lg-5">
                 <h1 class="font-weight-light">{{ Recipe.title }}</h1>
 				<h3>{{rating}}</h3>
-                <a class="btn btn-primary" href="{% url 'ratemyrecipeapp:chosen_recipe' Recipe.slug%}">Go to Recipe</a>
+                <a class="btn btn-primary" href="{% url 'ratemyrecipeapp:random_recipe' Recipe.slug %}">Go to Recipe</a>
             </div>
         </div>
         <div class="col-md-4 mb-5">

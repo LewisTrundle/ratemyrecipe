@@ -17,6 +17,7 @@ def index(request):
     ran_recipe = Recipe.objects.order_by('?').first()
     # Gets all the ratings associated with that recipe
     ratings = Rating.objects.filter(recipe=ran_recipe)
+
     # Calculates the avergae rating and stores as a dictionary
     avg_rating_dict = ratings.aggregate(Avg('rating'))
     # Gets the value in the dict
@@ -72,7 +73,20 @@ def chosen_category(request, category_name_slug):
 
 
 
-def chosen_recipe(request, recipe_name_slug):
+def random_recipe(request, recipe_name_slug):
+    context_dict = {}
+    
+    try:
+        recipe = Recipe.objects.get(slug=recipe_name_slug)
+        context_dict['recipe'] = recipe
+        
+        
+    except:
+        context_dict['recipe'] = None
+    
+    return render(request, 'ratemyrecipeapp/chosen_recipe.html', context=context_dict)
+
+def chosen_recipe(request, category_name_slug, recipe_name_slug):
     context_dict = {}
     
     try:
@@ -125,12 +139,17 @@ def add_recipe(request, category_name_slug):
                 recipe.category = category
                 recipe.save()
 
-                return redirect('categories', kwargs={'category_name_slug': category_name_slug})
+                return redirect('categories')
 
         else:
             print(form.errors)
+    
+    categories = list(Category.objects.all())
+    context_dict = {} 
+    context_dict['form']=form
+    context_dict['category']=category
+    context_dict['categories']=categories
 
-    context_dict = {'form': form, 'category': category}
     return render(request, 'ratemyrecipeapp/add_recipe.html', context=context_dict)
 
 
@@ -237,12 +256,30 @@ def rate_image(request):
 
 
 def my_recipes(request):
+    if request.method == 'GET':
+        # Get username and password from login form
+        username = request.GET.get('username')
+        password = request.GET.get('password')
+
+        # If username/password combination valid, User object is returned
+    user = authenticate(username=username, password=password)
+    recipes=Recipe.objects.filter(added_by=user )
     context_dict = {}
+    context_dict[recipes]=recipes
     
     return render(request, 'ratemyrecipeapp/my_recipes.html', context=context_dict)
 
 
 def recipes_ive_rated(request):
+    if request.method == 'GET':
+        # Get username and password from login form
+        username = request.GET.get('username')
+        password = request.GET.get('password')
+
+        # If username/password combination valid, User object is returned
+    user = authenticate(username=username, password=password)
+    ratings=Rating.objects.filter(rated_by=user )
     context_dict = {}
+    context_dict[ratings]=ratings
     
     return render(request, 'ratemyrecipeapp/recipes_ive_rated.html', context=context_dict)

@@ -63,14 +63,13 @@
 			
 				<p class="text-white m-0">Welcome to Rate My Recipe, {{ user.username }}!</p>
 				<div>
-				<h3>Your Recipes:</h3>
-					
+				<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:my_recipes' %}">My Recipes</a>	
 				</div>
 				<div>
-				<h3>Your Ratings:</h3>
+				<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:recipes_ive_rated' %}">My Ratings</a>	
 					
 				</div>
-			
+				
 				<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:logout' %}">Logout</a>
 				
 			{% else %}

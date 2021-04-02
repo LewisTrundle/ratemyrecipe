@@ -13,11 +13,10 @@ urlpatterns = [
         path('categories/<slug:category_name_slug>/', views.chosen_category, name="chosen_category"),
         
         
-        # URL for chosen_recipe page
-        # This one works but gives the wrong url?
-        path('chosen_recipe/<slug:recipe_name_slug>/', views.chosen_recipe, name="chosen_recipe"),
+        path('random_recipe/<slug:recipe_name_slug>/', views.random_recipe, name="random_recipe"),
+        #path('chosen_recipe/<slug:recipe_name_slug>/', views.chosen_recipe, name="chosen_recipe"),
         # Don't know why this one doesn't work?
-       # path('categories/<slug:category_name_slug>/<slug:recipe_name_slug>/', views.chosen_recipe, name="chosen_recipe"),
+        path('categories/<slug:category_name_slug>/<slug:recipe_name_slug>/', views.chosen_recipe, name="chosen_recipe"),
         
         
         path('trending/', views.trending, name="trending"),
@@ -26,6 +25,9 @@ urlpatterns = [
         path('logout/', views.user_logout, name='logout'),
         path('account/', views.my_account, name="account"),
         path('add_recipe/', views.add_recipe, name='add_recipe'),
+        path('my_recipes/', views.my_recipes, name='my_recipes'),
+        path('recipes_ive_rated/', views.recipes_ive_rated, name='recipes_ive_rated'),
+        
         
         path('rate/', views.rate_image, name='rate-view'),
 ]

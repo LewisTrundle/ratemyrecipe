@@ -79,7 +79,7 @@
                         <div class="col">
                             <div class="card shadow-sm">
                                 <a href="{% url 'ratemyrecipeapp:chosen_category' c.slug %}">
-								<img src="{% static 'images/Categories/c.name' %}" width="100%" height="350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ c.name }}</text></img></a>
+								<img src="/media/{{ c.picture }}" width="100%" height="350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ c.name }}</text></img></a>
 							</div>
                         </div>
                     {% endfor %}
