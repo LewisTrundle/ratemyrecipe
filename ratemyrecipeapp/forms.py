@@ -48,6 +48,10 @@ class RecipeForm(forms.ModelForm):
         # idk how to change this honestly
     )
 
+    picture = forms.ImageField(
+        help_text='Insert a photo of your recipe!'
+    )
+
     class Meta:
         model = Recipe
         exclude = ('added_by', )
