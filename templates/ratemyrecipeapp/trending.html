@@ -61,7 +61,8 @@
     			<div class="card-body">
     			<h1 class="text-white m-0">Trending right now: {{ Recipe.title }} </h1>
     			<p class="text-white m-0">Rating:{{ Recipe.rating }}</p>
-    			<p class="text-white m-0">Is vegan: {{ Recipe.is_vegan }}<p>
+    			<p class="text-white m-0">Is vegan: {{ Recipe.is_vegan }}</p>
+    			<p class="text-white m-0">Is vegetarian: {{ Recipe.is_vegetarian }}</p>
     			</div>
     		</div>
     		
@@ -70,6 +71,7 @@
     		</div>
     		<div>
     			<h3>Ingredients:</h3>
+    				<p class="text-white m-0">Cost:{{ Recipe.cost }}</p>
     				<p class="text-white m-0">{{ Recipe.ingredients }}</p>
     		</div>
     		<div>
