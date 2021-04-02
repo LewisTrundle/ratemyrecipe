@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from ratemyrecipeapp import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     # If an empty string is entered after the server name, then the user is mapped to the index (home) page
@@ -26,4 +29,5 @@ urlpatterns = [
     
     # This is the url mapping for the admin page
     path('admin/', admin.site.urls),
-]
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -15,8 +15,6 @@ def index(request):
 
     # Picks a random recipe
     ran_recipe = Recipe.objects.order_by('?').first()
-    cat=ran_recipe.category
-    category=Category.objects.filter(name=cat)
     # Gets all the ratings associated with that recipe
     ratings = Rating.objects.filter(recipe=ran_recipe)
 
@@ -28,7 +26,6 @@ def index(request):
 
     context_dict = {}
     context_dict['Recipe'] = ran_recipe
-    context_dict['Category']= category
     context_dict['rating'] = avg_rating
 
     return render(request, 'ratemyrecipeapp/index.html', context=context_dict)

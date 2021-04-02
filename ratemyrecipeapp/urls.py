@@ -26,7 +26,7 @@ urlpatterns = [
         path('login/', views.user_login, name="login"),
         path('logout/', views.user_logout, name='logout'),
         path('account/', views.my_account, name="account"),
-        path('add_recipe/', views.add_recipe, name='add_recipe'),
+        path('add_recipe/<slug:category_name_slug>', views.add_recipe, name='add_recipe'),
         path('my_recipes/',views.my_recipes,name='my_recipes'),
         path('recipes_ive_rated/',views.recipes_ive_rated,name='recipes_ive_rated'),
 ]
