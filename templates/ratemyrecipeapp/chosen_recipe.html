@@ -16,6 +16,11 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'bootstrap/css/small-business.css' %}" rel="stylesheet">
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="{% static 'bootstrap/styles.css' %}" rel="stylesheet">
+	<script src="{% static 'bootstrap/main.js' %}" defer></script>
 
 </head>
 
@@ -57,6 +62,13 @@
     			<div class="card-body">
     			<h1 class="text-white m-0"> {{ recipe.title }} </h1>
     			<p class="text-white m-0">Rating: {{ recipe.rating }}</p>
+				
+				<span class="fa fa-star fa-3x checked"></span>
+				<span class="fa fa-star fa-3x checked"></span>
+				<span class="fa fa-star fa-3x checked"></span>
+				<span class="fa fa-star fa-3x"></span>
+				<span class="fa fa-star fa-3x"></span>
+				
     			<p class="text-white m-0">Is vegan: {{ recipe.is_vegan }}<p>
     			<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:chosen_category' recipe.category.slug %}">Go back to category</a>
     			</div>
@@ -66,14 +78,27 @@
     		</div>
     		<div>
     			<h3>Ingredients:</h3>
-    				<p class="text-white m-0">{{ recipe.ingredients }}</p>
+    				<p class="text-black m-0">{{ recipe.ingredients }}</p>
     		</div>
     		<div>
     			<h3>Method:</h3>
-    				<p class="text-white m-0">Time: {{ recipe.time_needed }}</p>
-    				<p class="text-white m-0">{{ recipe.directions }}</p>
+    				<p class="text-black m-0">Time: {{ recipe.time_needed }}</p>
+    				<p class="text-black m-0">{{ recipe.directions }}</p>
     				
     		</div>
+			
+			<br>
+			<h3>How would you rate this recipe?</h3>
+			<form class="rate-form" method="POST" action="{%url 'ratemyrecipeapp:chosen_recipe' recipe.slug %}" id="{{object.id}}">	
+				{% csrf_token %}
+				<button type="submit" class="fa fa-star fa-3x my-btn" id="first"></button>
+				<button type="submit" class="fa fa-star fa-3x my-btn" id="second"></button>
+				<button type="submit" class="fa fa-star fa-3x my-btn" id="third"></button>
+				<button type="submit" class="fa fa-star fa-3x my-btn" id="fourth"></button>
+				<button type="submit" class="fa fa-star fa-3x my-btn" id="fifth"></button>
+			</form>
+			<br>
+			<div id="confirm-box"></div>
     	</div>
     	
 	<!-- /.container -->

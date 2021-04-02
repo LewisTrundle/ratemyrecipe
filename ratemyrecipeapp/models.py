@@ -66,6 +66,7 @@ class Rating(models.Model):
     )
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     rated_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    #image = models.ImageField(upload_to='images/')
 
     def __str__(self):
         return f'Rating for [{self.recipe}] by {self.rated_by}: {self.rating}'
