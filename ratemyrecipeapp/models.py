@@ -36,6 +36,7 @@ class Category(models.Model):
 class Recipe(models.Model):
     TITLE_MAX_LENGTH = 100
     TEXT_MAX_LENGTH = 1000
+    TIME_NEEDED_MAX_LENGTH = len('HH:MM')
 
     title = models.CharField(max_length=TITLE_MAX_LENGTH)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -50,7 +51,7 @@ class Recipe(models.Model):
     is_vegan = models.BooleanField()
     is_vegetarian = models.BooleanField()
     cost = models.PositiveSmallIntegerField()
-    time_needed = models.DurationField(help_text='HH:MM:SS format')
+    time_needed = models.CharField(max_length=TIME_NEEDED_MAX_LENGTH)
 
     added_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
@@ -71,7 +72,6 @@ class Rating(models.Model):
     )
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     rated_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    #image = models.ImageField(upload_to='images/')
 
     def __str__(self):
         return f'Rating for [{self.recipe}] by {self.rated_by}: {self.rating}'
