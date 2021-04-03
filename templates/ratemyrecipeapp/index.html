@@ -16,6 +16,11 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'bootstrap/css/small-business.css' %}" rel="stylesheet">
+	
+	<!-- Style and javascript required for stars -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="{% static 'bootstrap/styles.css' %}" rel="stylesheet">
+	<script src="{% static 'bootstrap/main.js' %}" defer></script>
 
 </head>
 
@@ -79,7 +84,17 @@
             <!-- /.col-lg-8 -->
             <div class="col-lg-5">
                 <h1 class="font-weight-light">{{ Recipe.title }}</h1>
-				<h3>{{rating}}</h3>
+				
+				<span id="hidden"><p id="avgrating">{{rating }}</p></span>
+				<div class="stars">
+					<span class="fa fa-star fa-3x"></span>
+					<span class="fa fa-star fa-3x"></span>
+					<span class="fa fa-star fa-3x"></span>
+					<span class="fa fa-star fa-3x"></span>
+					<span class="fa fa-star fa-3x"></span>
+				</div>
+				<br>
+				
                 <a class="btn btn-primary" href="{% url 'ratemyrecipeapp:random_recipe' Recipe.slug %}">Go to Recipe</a>
             </div>
         </div>

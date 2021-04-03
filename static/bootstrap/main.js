@@ -4,23 +4,49 @@ const two = document.getElementById('second')
 const three = document.getElementById('third')
 const four = document.getElementById('fourth')
 const five = document.getElementById('fifth')
+const avgrating = document.getElementById('avgrating').innerHTML
+document.getElementById("hidden").style.cssText = "font-size: 0.01px; color: black; "
 
-
+const stars = document.querySelector('.stars')
 const form = document.querySelector('.rate-form')
 const confirmBox = document.getElementById('confirm-box')
 const csrf = document.getElementsByName('csrfmiddlewaretoken')
 
 
-const handleStarSelect = (size) => {
-	const children = form.children
-	console.log(children)
+const handleStarSelect = (size, place) => {
+	const children = place.children
 	
-	for (let i=0; i < children.length; i++) {
+	for (let i=0; i < children.length-1; i++) {
 		if (i <= size) {
 			children[i].classList.add('checked')
 		} else {
 			children[i].classList.remove('checked')
 		}
+	}
+}
+
+
+
+switch(avgrating) {
+	case '1': {
+		handleStarSelect(0, stars)
+		break
+	}
+	case '2': {
+		handleStarSelect(1, stars)
+		break
+	}
+	case '3': {
+		handleStarSelect(2, stars)
+		break
+	}
+	case '4': {
+		handleStarSelect(3, stars)
+		break
+	}
+	case '5': {
+		handleStarSelect(4, stars)
+		break
 	}
 }
 	
@@ -34,23 +60,23 @@ const handleSelect = (selection) => {
 			//three.classList.remove('checked')
 			//four.classList.remove('checked')
 			//five.classList.remove('checked')
-			handleStarSelect(1)
+			handleStarSelect(1, form)
 			return
 		}
 		case 'second': {
-			handleStarSelect(2)
+			handleStarSelect(2, form)
 			return
 		}
 		case 'third': {
-			handleStarSelect(3)
+			handleStarSelect(3, form)
 			return
 		}
 		case 'fourth': {
-			handleStarSelect(4)
+			handleStarSelect(4, form)
 			return
 		}
 		case 'fifth': {
-			handleStarSelect(5)
+			handleStarSelect(5, form)
 			return
 		}
 	}
@@ -104,6 +130,7 @@ if (one) {
 			const id = e.target.id
 			const val_num = getNumericValue(val)
 			
+			
 			$.ajax({
 				type: 'POST',
 				url: '/ratemyrecipe/rate/',
@@ -114,7 +141,7 @@ if (one) {
 				},
 				success: function(response) {
 					console.log(response)
-					confirmBox.onnterHTML = `<h1>Successfully rated with ${response.rating}</h1>`
+					confirmBox.outerHTML = `<h1>Successfully rated with ${response.rating}</h1>`
 				},
 				error: function(error) {
 					console.log(error)

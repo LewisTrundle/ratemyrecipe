@@ -26,7 +26,8 @@ def index(request):
 
     context_dict = {}
     context_dict['Recipe'] = ran_recipe
-    context_dict['rating'] = avg_rating
+    # Must be an integer for stars
+    context_dict['rating'] = int(avg_rating)
 
     return render(request, 'ratemyrecipeapp/index.html', context=context_dict)
 
@@ -86,12 +87,24 @@ def random_recipe(request, recipe_name_slug):
     
     return render(request, 'ratemyrecipeapp/chosen_recipe.html', context=context_dict)
 
+
+
 def chosen_recipe(request, category_name_slug, recipe_name_slug):
     context_dict = {}
     
     try:
         recipe = Recipe.objects.get(slug=recipe_name_slug)
         context_dict['recipe'] = recipe
+        ratings = Rating.objects.filter(recipe=recipe)
+        
+        # Calculates the avergae rating and stores as a dictionary
+        avg_rating_dict = ratings.aggregate(Avg('rating'))
+        # Gets the value in the dict
+        avg_rating = avg_rating_dict['rating__avg']
+        
+        # Has to be an integer
+        context_dict['rating'] = int(avg_rating)
+        
         
         
     except:
@@ -241,19 +254,21 @@ def user_logout(request):
 
     
 
-
-def rate_image(request):
-    if request.method == 'POST':
-        el_id = request.POST.get('el_id')
-        val = request.POST.get('val')
+def rate_recipe(request):
+    if request.method == 'GET':
+        el_id = request.GET.get('el_id')
+        val = request.GET.get('val')
         
-        obj = Rating.objects.get(id=el_id)
+        obj = Rating.objects.get(id=int(el_id))
         obj.score = val
         obj.save()
-        return JsonResponse({'success':'true', 'score':val}, safe=False)
+        return JsonResponse({'success':'true', 'rating':val}, safe=False)
     return JsonResponse({'success':'false'})
-
-
+"""
+class rate_recipe(View):
+    @login_required
+    def get(self, request):
+"""      
 
 def my_recipes(request):
     if request.method == 'GET':

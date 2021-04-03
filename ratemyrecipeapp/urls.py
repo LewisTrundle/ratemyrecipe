@@ -14,8 +14,7 @@ urlpatterns = [
         
         
         path('random_recipe/<slug:recipe_name_slug>/', views.random_recipe, name="random_recipe"),
-        #path('chosen_recipe/<slug:recipe_name_slug>/', views.chosen_recipe, name="chosen_recipe"),
-        # Don't know why this one doesn't work?
+        path('chosen_recipe/<slug:recipe_name_slug>/', views.chosen_recipe, name="chosen_recipe"),
         path('categories/<slug:category_name_slug>/<slug:recipe_name_slug>/', views.chosen_recipe, name="chosen_recipe"),
         
         
@@ -24,12 +23,12 @@ urlpatterns = [
         path('login/', views.user_login, name="login"),
         path('logout/', views.user_logout, name='logout'),
         path('account/', views.my_account, name="account"),
-        path('add_recipe/', views.add_recipe, name='add_recipe'),
+        path('add_recipe/<slug:category_name_slug>/', views.add_recipe, name='add_recipe'),
         path('my_recipes/', views.my_recipes, name='my_recipes'),
         path('recipes_ive_rated/', views.recipes_ive_rated, name='recipes_ive_rated'),
         
         
-        path('rate/', views.rate_image, name='rate-view'),
+        path('rate/', views.rate_recipe, name='rate-view'),
 ]
 
 
