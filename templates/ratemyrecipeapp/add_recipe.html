@@ -68,20 +68,19 @@
             </div>
         </div>
 
-        <form id="RecipeForm" role="form" method="POST" action="{% url 'ratemyrecipeapp:categories' %}">
+        <form id="RecipeForm" role="form" method='POST'>
             {% csrf_token %}
             {% for field in form %}
             <div class="form-group">
                 {{field.errors}}
                 {{field.help_text}}
-                {{field.empty_value}}
                 {{field}}
 
             </div>
             {% endfor %}
                 <div class="form-group">
                     <div class="col-sm-10">
-                        <input type="submit" class="btn btn-primary" name="submit" value="Create Recipe" />
+                        <input type="submit" class="btn btn-primary" name="submit" value="Submit" />
                     </div>
                 </div>
         </form>
