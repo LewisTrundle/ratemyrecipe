@@ -20,6 +20,11 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'bootstrap/css/small-business.css' %}" rel="stylesheet">
+	
+	<!-- Style and javascript required for stars -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="{% static 'bootstrap/styles.css' %}" rel="stylesheet">
+	<script src="{% static 'bootstrap/main.js' %}" defer></script>
 
     <style>
         .bd-placeholder-img {
@@ -98,6 +103,14 @@
                             <a href="{% url 'ratemyrecipeapp:chosen_recipe' category.slug r.slug %}"><img src="/media/{{ r.picture }}" width="100%" height="350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ r.name }}</text></img></a>
                             <div class="card-body">
                                 <h4>{{ r.title }}</h4>
+								<span id="hidden"><p id="avgrating">{{rating }}</p></span>
+								<div class="stars">
+									<span class="fa fa-star fa-3x"></span>
+									<span class="fa fa-star fa-3x"></span>
+									<span class="fa fa-star fa-3x"></span>
+									<span class="fa fa-star fa-3x"></span>
+									<span class="fa fa-star fa-3x"></span>
+								</div>
                                 <p class="card-text">{{ r.ingredients}}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">

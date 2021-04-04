@@ -4,8 +4,15 @@ const two = document.getElementById('second')
 const three = document.getElementById('third')
 const four = document.getElementById('fourth')
 const five = document.getElementById('fifth')
+
 const avgrating = document.getElementById('avgrating').innerHTML
 document.getElementById("hidden").style.cssText = "font-size: 0.01px; color: black; "
+const title = document.getElementById("title").innerHTML
+document.getElementById("user").style.cssText = "color: white;"
+
+console.log(title)
+console.log(user)
+
 
 const stars = document.querySelector('.stars')
 const form = document.querySelector('.rate-form')
@@ -16,7 +23,7 @@ const csrf = document.getElementsByName('csrfmiddlewaretoken')
 const handleStarSelect = (size, place) => {
 	const children = place.children
 	
-	for (let i=0; i < children.length-1; i++) {
+	for (let i=0; i < children.length; i++) {
 		if (i <= size) {
 			children[i].classList.add('checked')
 		} else {
@@ -107,6 +114,25 @@ const getNumericValue = (stringValue) => {
 	
 }
 
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+console.log(csrftoken)
+
+
 if (one) {
 	const arr = [one, two, three, four, five]
 	
@@ -127,25 +153,28 @@ if (one) {
 			}
 			isSubmit = true
 			
-			const id = e.target.id
 			const val_num = getNumericValue(val)
 			
 			
 			$.ajax({
 				type: 'POST',
 				url: '/ratemyrecipe/rate/',
-				data: {
+				data: JSON.stringify ({
 					'csrfmiddlewaretoken': csrf[0].value,
-					'el_id': id,
 					'val': val_num,
-				},
+					'title': title,
+				}),
+				processData: false,
+				contentType: false,
 				success: function(response) {
+					
 					console.log(response)
-					confirmBox.outerHTML = `<h1>Successfully rated with ${response.rating}</h1>`
+					confirmBox.outerHTML = `<h1>Successfully rated</h1>`
 				},
 				error: function(error) {
 					console.log(error)
-					confirmBox.innterHTML = `<h1>Oops... something went wrong</h1>`
+
+					confirmBox.outerHTML = `<h1>Oops... something went wrong</h1>`
 				}
 			})
 		})

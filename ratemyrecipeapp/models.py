@@ -70,8 +70,7 @@ class Rating(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    rated_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    #image = models.ImageField(upload_to='images/')
+    rated_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Rating for [{self.recipe}] by {self.rated_by}: {self.rating}'

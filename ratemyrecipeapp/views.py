@@ -1,14 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Avg
-from ratemyrecipeapp.models import Category, Recipe, Rating
+from ratemyrecipeapp.models import Category, Recipe, Rating, UserProfile
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
-from ratemyrecipeapp.forms import CategoryForm, RecipeForm, RatingForm, UserForm, UserProfileForm
+from ratemyrecipeapp.forms import RecipeForm, UserForm, UserProfileForm, RatingForm
 from ratemyrecipe.settings import STATIC_DIR
 import os
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
+import json
+
 
 
 def index(request):
@@ -59,11 +62,18 @@ def chosen_category(request, category_name_slug):
         # Retreives all associated recipes
         # filter() returns list of recipes objects or empty list
         recipes = Recipe.objects.filter(category=category)
-        # Adds results list to template context under name recipes
+        
+        averages = []
+        for recipe in recipes:
+            ratings = Rating.objects.filter(recipe=recipe)
+            avg_rating_dict = ratings.aggregate(Avg('rating'))
+            avg_rating = avg_rating_dict['rating__avg']
+            averages.append(int(avg_rating))
+        
         context_dict['recipes'] = recipes
-        # Adds category object from database to dict - used to verify category exists
         context_dict['category'] = category
-
+        context_dict['ratings'] = averages
+        
     except:
         # If specified category can't be found, template will display "no category" message
         context_dict['category'] = None
@@ -88,7 +98,7 @@ def random_recipe(request, recipe_name_slug):
     return render(request, 'ratemyrecipeapp/chosen_recipe.html', context=context_dict)
 
 
-
+@csrf_exempt
 def chosen_recipe(request, category_name_slug, recipe_name_slug):
     context_dict = {}
     
@@ -130,6 +140,7 @@ def my_account(request):
     return render(request, 'ratemyrecipeapp/my_account.html', context=context_dict)
 
 
+@login_required
 def add_recipe(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
@@ -252,23 +263,50 @@ def user_logout(request):
     # Returns user to homepage
     return redirect(reverse('ratemyrecipeapp:index'))
 
-    
 
+
+# Currently, all ratings are 1 for Recipe 20
+@csrf_exempt
 def rate_recipe(request):
-    if request.method == 'GET':
-        el_id = request.GET.get('el_id')
-        val = request.GET.get('val')
+    if request.method == 'POST':
+        val = request.POST.get('val')
+        u = request.user
+        title = request.POST.get('title')
         
-        obj = Rating.objects.get(id=int(el_id))
-        obj.score = val
-        obj.save()
+        #user = UserProfile.objects.filter(user=u)
+        recipes = Recipe.objects.get(title='Recipe 20')
+            
+        r = Rating.objects.create(
+                rating=1,
+                rated_by=u,
+                recipe=recipes)
+
+        r.save()
+        
         return JsonResponse({'success':'true', 'rating':val}, safe=False)
     return JsonResponse({'success':'false'})
 """
-class rate_recipe(View):
-    @login_required
-    def get(self, request):
-"""      
+
+def rate_recipe(request):
+    registered = False
+    
+    if request.method == 'POST':
+        val = request.POST.get('val')
+        recipe = request.POST.get('title')
+        user = request.POST.get('user')
+            
+        r = Rating.objects.get_or_create(
+                rating=val,
+                rating_by=user,
+                recipe=recipe)[0]
+        r.save()
+        
+        registered = True
+        
+    return render(request,
+                  'ratemyrecipeapp/rate_recipe',
+                  context={'registered': registered})
+"""
 
 def my_recipes(request):
     if request.method == 'GET':

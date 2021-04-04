@@ -54,13 +54,14 @@
         </div>
     </nav>
 
-    	
+    	<span id="user">{{user.username}}</span>
+		
     	<!-- Page content -->
     	<div class="container">
     		<!-- Heading Row -->
     		<div class="card text-white bg-secondary my-5 py-4 text-center">
     			<div class="card-body">
-    			<h1 class="text-white m-0"> {{ recipe.title }} </h1>
+    			<h1 class="text-white m-0"><div id="title"> {{ recipe.title }} </div></h1>
     			<span id="hidden"><p id="avgrating">{{rating }}</p></span>
 				
 				<div class="stars">
@@ -124,10 +125,11 @@
             <!-- /.container -->
         </footer>
 
-        <!-- Bootstrap core JavaScript -->
+        <!-- Bootstrap core JavaScript 
         <script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
-        <script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
+        <script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>-->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		
 </body>
 
 </html>    	
