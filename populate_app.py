@@ -40,8 +40,7 @@ def populate():
                 veg = r_info['is_vegan']
                 vegt = r_info['is_vegetarian']
                 cost = r_info['cost']
-                time_str = r_info['time']
-                time = parse_time(time_str)
+                time = r_info['time']
 
                 new_recipe = add_recipe(
                     r_title, category, ing, dirs,

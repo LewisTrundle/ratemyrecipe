@@ -70,7 +70,6 @@
 					<span class="fa fa-star fa-3x"></span>
 					<span class="fa fa-star fa-3x"></span>
 				</div>
-				
     			<p class="text-white m-0">Is vegan: {{ recipe.is_vegan }}</p>
     			<p class="text-white m-0">Is vegetarian: {{ recipe.is_vegetarian }}</p>
     			<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:chosen_category' recipe.category.slug %}">Go back to category</a>
@@ -81,8 +80,6 @@
     		</div>
     		<div>
     			<h3>Ingredients:</h3>
-    				<p class="text-black m-0">{{ recipe.ingredients }}</p>
-
     				<p class="text-white m-0">Cost:{{ recipe.cost }}</p>
     				<p class="text-white m-0">{{ recipe.ingredients }}</p>
     		</div>
