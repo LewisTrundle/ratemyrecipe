@@ -61,7 +61,7 @@
 			{% if recipes %}
 				{% for r in recipes %}
 				<li>
-				<a href="{% url 'ratemyrecipe:chosen_recipe' r.slug %}">{{ r.title }}</a>
+				<a href="{% url 'ratemyrecipeapp:chosen_recipe' r.category.slug r.slug %}">{{ r.title }}</a>
 				</li>
 				{% endfor %}
 			{% else %}

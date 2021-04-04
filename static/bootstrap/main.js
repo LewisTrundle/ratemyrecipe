@@ -5,13 +5,9 @@ const three = document.getElementById('third')
 const four = document.getElementById('fourth')
 const five = document.getElementById('fifth')
 
+//const avgrating = document.getElementsByClassName('avgrating')
 const avgrating = document.getElementById('avgrating').innerHTML
 document.getElementById("hidden").style.cssText = "font-size: 0.01px; color: black; "
-const title = document.getElementById("title").innerHTML
-document.getElementById("user").style.cssText = "color: white;"
-
-console.log(title)
-console.log(user)
 
 
 const stars = document.querySelector('.stars')
@@ -114,23 +110,6 @@ const getNumericValue = (stringValue) => {
 	
 }
 
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-const csrftoken = getCookie('csrftoken');
-console.log(csrftoken)
 
 
 if (one) {
@@ -159,11 +138,10 @@ if (one) {
 			$.ajax({
 				type: 'POST',
 				url: '/ratemyrecipe/rate/',
-				data: JSON.stringify ({
+				data: {
 					'csrfmiddlewaretoken': csrf[0].value,
 					'val': val_num,
-					'title': title,
-				}),
+				},
 				processData: false,
 				contentType: false,
 				success: function(response) {
