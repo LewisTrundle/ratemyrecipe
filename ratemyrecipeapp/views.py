@@ -127,12 +127,30 @@ def chosen_recipe(request, category_name_slug, recipe_name_slug):
 def trending(request):
     context_dict = {}
     
-    pop_recipes = Recipe.objects.order_by('-rating')[:5]
+    # Gets the highest ratings
+    highest_ratings = Rating.objects.order_by('-rating')
+    pop_ratings = [highest_ratings[0]]
+    for rating in highest_ratings:
+        if rating.recipe not in pop_ratings:
+                pop_ratings.append(rating)
+        
+    """
+    # Goes through each rating
+    pop_recipes = []
+    for rating in highest_ratings:
+        recipe = Recipe.objects.get(title = rating.recipe.title)
+        # Recipe added if it isn't in pop_recipes already
+        if recipe not in pop_recipes:
+            pop_recipes.append(recipe)
+    """
     
-    context_dict['recipes'] = pop_recipes
+    # Returns the top 5 recipes
+    #context_dict['recipes'] = pop_recipes[:5]
+    context_dict['ratings'] = pop_ratings[:5]
     
     return render(request, 'ratemyrecipeapp/trending.html', context=context_dict)
     
+
     
 def my_account(request):
     context_dict = {}
@@ -273,66 +291,53 @@ def rate_recipe(request):
         u = request.user
         title = request.POST.get('title')
         
-        #user = UserProfile.objects.filter(user=u)
+        # Gets the UserProfile associated with User
+        user = UserProfile.objects.get(user=u)
         recipes = Recipe.objects.get(title='Recipe 20')
             
         r = Rating.objects.create(
                 rating=1,
-                rated_by=u,
+                rated_by=user,
                 recipe=recipes)
 
         r.save()
         
         return JsonResponse({'success':'true', 'rating':val}, safe=False)
     return JsonResponse({'success':'false'})
-"""
 
-def rate_recipe(request):
-    registered = False
-    
-    if request.method == 'POST':
-        val = request.POST.get('val')
-        recipe = request.POST.get('title')
-        user = request.POST.get('user')
-            
-        r = Rating.objects.get_or_create(
-                rating=val,
-                rating_by=user,
-                recipe=recipe)[0]
-        r.save()
-        
-        registered = True
-        
-    return render(request,
-                  'ratemyrecipeapp/rate_recipe',
-                  context={'registered': registered})
-"""
+
+
 
 def my_recipes(request):
-    if request.method == 'GET':
-        # Get username and password from login form
-        username = request.GET.get('username')
-        password = request.GET.get('password')
-
-        # If username/password combination valid, User object is returned
-    user = authenticate(username=username, password=password)
-    recipes=Recipe.objects.filter(added_by=user )
+    u = request.user
+    user = UserProfile.objects.get(user=u)
+    
+    recipes = Recipe.objects.filter(added_by = user)
+    
     context_dict = {}
-    context_dict[recipes]=recipes
+    context_dict['recipes'] = recipes
     
     return render(request, 'ratemyrecipeapp/my_recipes.html', context=context_dict)
 
 
-def recipes_ive_rated(request):
-    if request.method == 'GET':
-        # Get username and password from login form
-        username = request.GET.get('username')
-        password = request.GET.get('password')
 
-        # If username/password combination valid, User object is returned
-    user = authenticate(username=username, password=password)
-    ratings=Rating.objects.filter(rated_by=user )
+def recipes_ive_rated(request):
+    # Gets the user profile
+    u = request.user
+    user = UserProfile.objects.get(user=u)
+    
+    # Gets all the ratings associated with the user
+    ratings = Rating.objects.filter(rated_by = user)
+    
+    # Gets all the recipes rated by the user
+    recipes = []
+    for rating in ratings:
+        r = Recipe.objects.get(title = rating.recipe.title)
+        recipes.append(r)
+    
+    
     context_dict = {}
-    context_dict[ratings]=ratings
+    context_dict['recipes'] = recipes
+    context_dict['ratings'] = ratings
     
     return render(request, 'ratemyrecipeapp/recipes_ive_rated.html', context=context_dict)

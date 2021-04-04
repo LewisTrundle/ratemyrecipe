@@ -16,6 +16,11 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'bootstrap/css/small-business.css' %}" rel="stylesheet">
+	
+	<!-- Style and javascript required for stars -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="{% static 'bootstrap/styles.css' %}" rel="stylesheet">
+	<script src="{% static 'bootstrap/main.js' %}" defer></script>
 
 </head>
 
@@ -56,13 +61,23 @@
     	<!-- Page content -->
     	<div class="container">
     		<!-- Heading Row -->
-			{% for Recipe in recipes %}
+			{% for rating in ratings %}
     		<div class="card text-white bg-secondary my-5 py-4 text-center">
     			<div class="card-body">
-    			<h1 class="text-white m-0">Trending right now: {{ Recipe.title }} </h1>
-    			<p class="text-white m-0">Rating:{{ Recipe.rating }}</p>
-    			<p class="text-white m-0">Is vegan: {{ Recipe.is_vegan }}</p>
-    			<p class="text-white m-0">Is vegetarian: {{ Recipe.is_vegetarian }}</p>
+    			<h1 class="text-white m-0">Trending right now: {{ rating.recipe.title }} </h1>
+				
+				<span id="hidden"><p id="avgrating">{{rating.rating }}</p></span>
+				
+				<div class="stars">
+					<span class="fa fa-star fa-3x"></span>
+					<span class="fa fa-star fa-3x"></span>
+					<span class="fa fa-star fa-3x"></span>
+					<span class="fa fa-star fa-3x"></span>
+					<span class="fa fa-star fa-3x"></span>
+				</div>
+				
+    			<p class="text-white m-0">Is vegan: {{ rating.recipe.is_vegan }}</p>
+    			<p class="text-white m-0">Is vegetarian: {{ rating.recipe.is_vegetarian }}</p>
     			</div>
     		</div>
     		
@@ -71,13 +86,13 @@
     		</div>
     		<div>
     			<h3>Ingredients:</h3>
-    				<p class="text-white m-0">Cost:{{ Recipe.cost }}</p>
-    				<p class="text-white m-0">{{ Recipe.ingredients }}</p>
+    				<p class="text-black m-0">Cost:{{ rating.recipe.cost }}</p>
+    				<p class="text-black m-0">{{ rating.recipe.ingredients }}</p>
     		</div>
     		<div>
     			<h3>Method:</h3>
-    				<p class="text-white m-0">Time: {{ Recipe.time_needed }}</p>
-    				<p class="text-white m-0">{{ Recipe.directions }}</p>
+    				<p class="text-black m-0">Time: {{ rating.ecipe.time_needed }}</p>
+    				<p class="text-black m-0">{{ rating.recipe.directions }}</p>
     				
     		</div>
 			{% endfor %}
