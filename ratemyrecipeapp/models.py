@@ -56,6 +56,10 @@ class Recipe(models.Model):
     added_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
+        # make sure that the cost is positive
+        if (self.cost < 0):
+            self.cost = 0
+        # handle time_needed appropriately
         self.slug = slugify(self.title)
         super(Recipe, self).save(*args, **kwargs)
 
@@ -72,6 +76,15 @@ class Rating(models.Model):
     )
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     rated_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        # make sure that the rating is on the 1-5 range
+        if self.rating < 1:
+            self.rating = 1
+        elif self.rating > 5:
+            self.rating = 5
+
+        super(Rating, self).save(*args, **kwargs)
 
     def __str__(self):
         return f'Rating for [{self.recipe}] by {self.rated_by}: {self.rating}'
