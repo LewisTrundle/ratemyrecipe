@@ -1,101 +1,151 @@
-	title	cat	ingredients	directions	is_vegan	cost	time	added_by	image	is_vegetarian
-0	Garlic Sesame Noodles	Asian	"1. Brocoli
+title	cat	ingredients	directions	is_vegan	cost	time	added_by	image	is_vegetarian
+Garlic Sesame Noodles	Asian	"1. Brocoli
 2. Ingredient 2
 3. Ingredient 3"	"1. Step 1
 2. Step 2
 3. Step 3"	True	10	01:30	user1	{% static 'recipe_img/garlic_sesame_noodles.jpg' %}	True
-1	Chicken Korma	Indian	"1. Ingredient 1
+Chicken Korma	Indian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 4"	"1. Step 1
 2. Step 2
 3. Step 4"	False	15	01:30	user1	{% static 'recipe_img/chicken_korma.jpg' %}	False
-2	Tomato Pasta	Italian	"1. Ingredient 1
+Tomato Pasta	Italian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 5"	"1. Step 1
 2. Step 2
 3. Step 5"	True	20	01:30	user1		True
-3	Recipe 4	Other	"1. Ingredient 1
+Recipe 4	Other	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 6"	"1. Step 1
 2. Step 2
 3. Step 6"	False	25	01:30	user1		False
-4	Crispy Sesame Chicken	Asian	"1. Ingredient 1
+Crispy Sesame Chicken	Asian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 7"	"1. Step 1
 2. Step 2
 3. Step 7"	False	30	01:30	user2		False
-5	Recipe 6	Indian	"1. Ingredient 1
+Recipe 6	Indian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 8"	"1. Step 1
 2. Step 2
 3. Step 8"	True	35	01:30	user2		True
-6	Recipe 7	Italian	"1. Ingredient 1
+Recipe 7	Italian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 9"	"1. Step 1
 2. Step 2
 3. Step 9"	False	40	01:30	user2		False
-7	Recipe 8	Other	"1. Ingredient 1
+Recipe 8	Other	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 10"	"1. Step 1
 2. Step 2
 3. Step 10"	True	45	01:30	user2		True
-8	Recipe 9	Asian	"1. Ingredient 1
+Recipe 9	Asian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 11"	"1. Step 1
 2. Step 2
 3. Step 11"	True	50	01:30	user3		True
-9	Recipe 10	Indian	"1. Ingredient 1
+Recipe 10	Indian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 12"	"1. Step 1
 2. Step 2
 3. Step 12"	False	55	01:30	user3		False
-10	Recipe 11	Italian	"1. Ingredient 1
+Recipe 11	Italian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 13"	"1. Step 1
 2. Step 2
 3. Step 13"	True	60	01:30	user3		True
-11	Recipe 12	Other	"1. Ingredient 1
+Recipe 12	Other	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 14"	"1. Step 1
 2. Step 2
 3. Step 14"	False	65	01:30	user3		False
-12	Recipe 13	Asian	"1. Ingredient 1
+Recipe 13	Asian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 15"	"1. Step 1
 2. Step 2
 3. Step 15"	False	70	01:30	user4		False
-13	Recipe 14	Indian	"1. Ingredient 1
+Recipe 14	Indian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 16"	"1. Step 1
 2. Step 2
 3. Step 16"	True	75	01:30	user4		True
-14	Recipe 15	Italian	"1. Ingredient 1
+Recipe 15	Italian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 17"	"1. Step 1
 2. Step 2
 3. Step 17"	False	80	01:30	user4		False
-15	Recipe 16	Other	"1. Ingredient 1
+Recipe 16	Other	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 18"	"1. Step 1
 2. Step 2
 3. Step 18"	True	85	01:30	user4		True
-16	Recipe 17	Asian	"1. Ingredient 1
+Recipe 17	Asian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 19"	"1. Step 1
 2. Step 2
 3. Step 19"	True	90	01:30	user5		True
-17	Recipe 18	Indian	"1. Ingredient 1
+Recipe 18	Indian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 20"	"1. Step 1
 2. Step 2
 3. Step 20"	False	95	01:30	user5		False
-18	Recipe 19	Italian	"1. Ingredient 1
+Recipe 19	Italian	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 21"	"1. Step 1
 2. Step 2
 3. Step 21"	True	100	01:30	user5		True
-19	Recipe 20	Other	"1. Ingredient 1
+Recipe 20	Other	"1. Ingredient 1
 2. Ingredient 2
 3. Ingredient 22"	"1. Step 1
 2. Step 2
 3. Step 22"	False	105	01:30	user5		False
+Recipe 21	British	"1. Ingredient 1
+2. Ingredient 2
+3. Ingredient 23"	"1. Step 1
+2. Step 2
+3. Step 23"	False	110	01:30	user1		True
+Recipe 22	American	"1. Ingredient 1
+2. Ingredient 2
+3. Ingredient 24"	"1. Step 1
+2. Step 2
+3. Step 24"	True	115	01:30	user1		False
+Recipe 23	British	"1. Ingredient 1
+2. Ingredient 2
+3. Ingredient 25"	"1. Step 1
+2. Step 2
+3. Step 25"	True	120	01:30	user2		True
+Recipe 24	American	"1. Ingredient 1
+2. Ingredient 2
+3. Ingredient 26"	"1. Step 1
+2. Step 2
+3. Step 26"	False	125	01:30	user2		True
+Recipe 25	British	"1. Ingredient 1
+2. Ingredient 2
+3. Ingredient 27"	"1. Step 1
+2. Step 2
+3. Step 27"	True	130	01:30	user3		False
+Recipe 26	American	"1. Ingredient 1
+2. Ingredient 2
+3. Ingredient 28"	"1. Step 1
+2. Step 2
+3. Step 28"	False	135	01:30	user3		True
+Recipe 27	British	"1. Ingredient 1
+2. Ingredient 2
+3. Ingredient 29"	"1. Step 1
+2. Step 2
+3. Step 29"	False	140	01:30	user4		False
+Recipe 28	American	"1. Ingredient 1
+2. Ingredient 2
+3. Ingredient 30"	"1. Step 1
+2. Step 2
+3. Step 30"	True	145	01:30	user4		True
+Recipe 29	British	"1. Ingredient 1
+2. Ingredient 2
+3. Ingredient 31"	"1. Step 1
+2. Step 2
+3. Step 31"	True	150	01:30	user5		False
+Recipe 30	American	"1. Ingredient 1
+2. Ingredient 2
+3. Ingredient 32"	"1. Step 1
+2. Step 2
+3. Step 32"	False	155	01:30	user5		True
