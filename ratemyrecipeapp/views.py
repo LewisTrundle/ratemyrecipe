@@ -15,7 +15,8 @@ import json
 
 
 def index(request):
-
+    context_dict = {}
+    
     # Picks a random recipe
     ran_recipe = Recipe.objects.order_by('?').first()
     # Gets all the ratings associated with that recipe
@@ -25,12 +26,15 @@ def index(request):
     avg_rating_dict = ratings.aggregate(Avg('rating'))
     # Gets the value in the dict
     avg_rating = avg_rating_dict['rating__avg']
+    
+    if avg_rating is None:
+        context_dict['rating'] = 1
+    else:
+        context_dict['rating'] = int(avg_rating)
 
 
-    context_dict = {}
     context_dict['Recipe'] = ran_recipe
-    # Must be an integer for stars
-    context_dict['rating'] = int(avg_rating)
+    
 
     return render(request, 'ratemyrecipeapp/index.html', context=context_dict)
 
@@ -67,7 +71,12 @@ def chosen_category(request, category_name_slug):
         ratings = Rating.objects.filter(recipe=recipe)
         avg_rating_dict = ratings.aggregate(Avg('rating'))
         avg_rating = avg_rating_dict['rating__avg']
-        averages.append(int(avg_rating))
+        
+        if avg_rating is None:
+            averages[0] == 1
+        else:
+            averages.append(int(avg_rating))
+        
         
     context_dict['recipes'] = recipes
     context_dict['category'] = category
@@ -106,8 +115,11 @@ def chosen_recipe(request, category_name_slug, recipe_name_slug):
         # Gets the value in the dict
         avg_rating = avg_rating_dict['rating__avg']
         
-        # Has to be an integer
-        context_dict['rating'] = int(avg_rating)
+        
+        if avg_rating is None:
+            context_dict['rating'] = 1
+        else:
+            context_dict['rating'] = int(avg_rating)
         
         
         
@@ -121,26 +133,24 @@ def chosen_recipe(request, category_name_slug, recipe_name_slug):
 def trending(request):
     context_dict = {}
     
-    # Gets the highest ratings
-    highest_ratings = Rating.objects.order_by('-rating')
-    pop_ratings = [highest_ratings[0]]
-    for rating in highest_ratings:
-        if rating.recipe not in pop_ratings:
-                pop_ratings.append(rating)
-        
-    """
-    # Goes through each rating
+    # Creates two empty lists
+    pop_ratings = []
     pop_recipes = []
+    
+    # Gets all the ratings in order of highest
+    highest_ratings = Rating.objects.order_by('-rating')
+    
+    # Goes through each rating and adds it to list if the recipe is not already there
     for rating in highest_ratings:
         recipe = Recipe.objects.get(title = rating.recipe.title)
-        # Recipe added if it isn't in pop_recipes already
         if recipe not in pop_recipes:
+            pop_ratings.append(rating)
             pop_recipes.append(recipe)
-    """
-    
-    # Returns the top 5 recipes
-    #context_dict['recipes'] = pop_recipes[:5]
-    context_dict['ratings'] = pop_ratings[:5]
+     
+    amount = 10
+    # Returns the top 5 ratings
+    context_dict['ratings'] = pop_ratings[:amount]
+    context_dict['amount'] = amount
     
     return render(request, 'ratemyrecipeapp/trending.html', context=context_dict)
     
@@ -279,17 +289,17 @@ def user_logout(request):
 # Currently, all ratings are 1 for Recipe 20
 @csrf_exempt
 def rate_recipe(request):
-    if request.method == 'POST':
-        val = request.POST.get('val')
+    if request.method == 'GET':
+        val = request.GET['val']
         u = request.user
-        title = request.POST.get('title')
+        title = request.GET['title']
         
         # Gets the UserProfile associated with User
         user = UserProfile.objects.get(user=u)
-        recipes = Recipe.objects.get(title='Recipe 20')
+        recipes = Recipe.objects.get(title=title)
             
         r = Rating.objects.create(
-                rating=1,
+                rating=int(val),
                 rated_by=user,
                 recipe=recipes)
 
