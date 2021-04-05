@@ -41,12 +41,12 @@ Add {{category.name}} Recipe - Rate My Recipe
                 <a class="btn btn-primary" href="{% url 'ratemyrecipeapp:account' %}">Go to my account</a>
                 {% endif %}
 
-        <form id="RecipeForm" role="form" method='POST'>
+        <form id="RecipeForm" role="form" method='POST'enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}
             <div class="form-group">
                 {{field.help_text}}
-                {{field}}
+                {{field}}{{field.empty_value}}
                 {{field.errors}}
             </div>
             {% endfor %}
