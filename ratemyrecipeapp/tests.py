@@ -27,6 +27,7 @@ def create_recipe(title, usr, cat):
 
 class RecipeMethodTests(TestCase):
     def test_ensure_cost_is_nonnegative(self):
+        # if the cost is negative, then set to 0
         cat = create_category()
         usr = create_user()
 
@@ -42,6 +43,7 @@ class RecipeMethodTests(TestCase):
 
 class RatingMethodTests(TestCase):
     def test_ensure_rating_is_less_than_5(self):
+        # if a rating is greater than 5, then change it back to 5
         usr = create_user()
         cat = create_category()
         rec = create_recipe('test recipe 1', usr, cat)
@@ -53,6 +55,7 @@ class RatingMethodTests(TestCase):
         self.assertEqual((r.rating <= 5), True)
 
     def test_ensure_rating_is_greater_than_1(self):
+        # if a rating is less than 1, then change it back to 1
         usr = create_user()
         cat = create_category()
         rec = create_recipe('test recipe 1', usr, cat)
