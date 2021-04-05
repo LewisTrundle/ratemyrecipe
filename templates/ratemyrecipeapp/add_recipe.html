@@ -32,21 +32,18 @@ Add {{category.name}} Recipe - Rate My Recipe
                 <!--Relies on user model-->
                 <p class="text-white m-0">
                     Hi {{ user.username }}! </br>
-                    Create a new recipe here.
+                    Create a new {{ category.name }} recipe here.
                 </p>
                 <a class="btn btn-primary" href="{% url 'ratemyrecipeapp:account' %}">Go to my account</a>
                 {% endif %}
-            </div>
-        </div>
 
         <form id="RecipeForm" role="form" method='POST'>
             {% csrf_token %}
             {% for field in form %}
             <div class="form-group">
-                {{field.errors}}
                 {{field.help_text}}
                 {{field}}
-
+                {{field.errors}}
             </div>
             {% endfor %}
                 <div class="form-group">

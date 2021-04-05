@@ -43,7 +43,7 @@ class Recipe(models.Model):
     slug = models.SlugField(unique=True)
 
     picture = models.ImageField(
-        upload_to='recipe_images', blank=True, null=True
+        upload_to='recipe_images'
     )
 
     ingredients = models.TextField(max_length=TEXT_MAX_LENGTH)

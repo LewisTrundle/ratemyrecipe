@@ -53,31 +53,25 @@ def categories(request):
 def chosen_category(request, category_name_slug):
     context_dict = {}
 
-    try:
-        # Tries to find category name slug with given name
-        # If it can't, the get() method raises DoesNotExist exception
-        # get() methods returns one model instance or raises exception
-        category = Category.objects.get(slug=category_name_slug)
+    # Tries to find category name slug with given name
+    # If it can't, the get() method raises DoesNotExist exception
+    # get() methods returns one model instance or raises exception
+    category = Category.objects.get(slug=category_name_slug)
 
-        # Retreives all associated recipes
-        # filter() returns list of recipes objects or empty list
-        recipes = Recipe.objects.filter(category=category)
+    # Retreives all associated recipes
+    # filter() returns list of recipes objects or empty list
+    recipes = Recipe.objects.filter(category=category)
         
-        averages = []
-        for recipe in recipes:
-            ratings = Rating.objects.filter(recipe=recipe)
-            avg_rating_dict = ratings.aggregate(Avg('rating'))
-            avg_rating = avg_rating_dict['rating__avg']
-            averages.append(int(avg_rating))
+    averages = []
+    for recipe in recipes:
+        ratings = Rating.objects.filter(recipe=recipe)
+        avg_rating_dict = ratings.aggregate(Avg('rating'))
+        avg_rating = avg_rating_dict['rating__avg']
+        averages.append(int(avg_rating))
         
-        context_dict['recipes'] = recipes
-        context_dict['category'] = category
-        context_dict['ratings'] = averages
-        
-    except:
-        # If specified category can't be found, template will display "no category" message
-        context_dict['category'] = None
-        context_dict['recipes'] = None
+    context_dict['recipes'] = recipes
+    context_dict['category'] = category
+    context_dict['ratings'] = averages
 
     # renders and returns response to client
     return render(request, 'ratemyrecipeapp/chosen_category.html', context=context_dict)
@@ -171,24 +165,23 @@ def add_recipe(request, category_name_slug):
     form = RecipeForm()
 
     if request.method == 'POST':
-        form = RecipeForm(request.POST)
-
+        form = RecipeForm(request.POST,request.FILES)
+        u=request.user
+        user=UserProfile.objects.get(id=u.id)
         if form.is_valid():
             if category:
                 recipe = form.save(commit=False)
+                recipe.added_by=user
                 recipe.category = category
                 recipe.save()
-
-                return redirect('categories')
+                return redirect('ratemyrecipe/categories')
 
         else:
             print(form.errors)
     
-    categories = list(Category.objects.all())
     context_dict = {} 
     context_dict['form']=form
     context_dict['category']=category
-    context_dict['categories']=categories
 
     return render(request, 'ratemyrecipeapp/add_recipe.html', context=context_dict)
 
