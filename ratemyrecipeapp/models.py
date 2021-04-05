@@ -56,10 +56,8 @@ class Recipe(models.Model):
     added_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
-        # make sure that the cost is positive
         if (self.cost < 0):
             self.cost = 0
-        # handle time_needed appropriately
         self.slug = slugify(self.title)
         super(Recipe, self).save(*args, **kwargs)
 

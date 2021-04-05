@@ -32,16 +32,17 @@ Add {{category.name}} Recipe - Rate My Recipe
         <!-- Call to Action Well -->
         <div class="card text-white bg-secondary my-5 py-4 text-center">
             <div class="card-body">
-		{% if user.is_authenticated %}
                 <!--Relies on user model-->
                 <p class="text-white m-0">
-                    Hi {{ user.username }}! </br>
+                    Hi {{ user.username }}! </p>
                     Create a new {{ category.name }} recipe here.
                 </p>
-                <a class="btn btn-primary" href="{% url 'ratemyrecipeapp:account' %}">Go to my account</a>
-                {% endif %}
+                <p>
+                    <a class="btn btn-primary" href="{% url 'ratemyrecipeapp:account' %}">Go to my account</a>
+                </p>
+              
 
-        <form id="RecipeForm" role="form" method='POST'>
+        <form id="RecipeForm" role="form" method='POST'enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}
             <div class="form-group">
