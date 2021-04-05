@@ -4,43 +4,82 @@
 {% block title_block %}
 Categories - Rate My Recipe
 {% endblock %}
-{% block content %}
-            <a class="navbar-brand" href="{% url 'ratemyrecipeapp:categories' %}">Rate My Recipe</a>
-{% endblock %}
 
+
+
+{% block content %}
+
+{% endblock %}
 {% block nav %}
 <li class="nav-item ">
-                        <a class="nav-link" href="{% url 'ratemyrecipeapp:index' %}">Home</a>
-                           
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'ratemyrecipeapp:categories' %}">
-                        Categories
-                        <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'ratemyrecipeapp:trending' %}">Trending</a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="{% url 'ratemyrecipeapp:account' %}">My Account</a>
-                        
-                    </li>
+    <a class="nav-link" href="{% url 'ratemyrecipeapp:index' %}">Home</a>
+
+</li>
+<li class="nav-item active">
+    <a class="nav-link" href="{% url 'ratemyrecipeapp:categories' %}">
+        Categories
+        <span class="sr-only">(current)</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'ratemyrecipeapp:trending' %}">Trending</a>
+</li>
+<li class="nav-item ">
+    <a class="nav-link" href="{% url 'ratemyrecipeapp:account' %}">My Account</a>
+
+</li>
 {% endblock %}
+
 {% block body_block %}
+
+<style>
+    .text_img {
+        position: relative;
+        text-align: center;
+ 
+    }
+
+    .centered_text {
+        position: relative;
+        float: left;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+    }
+
+    .overlay {
+        position: absolute;
+        opacity: 0;
+        transition: .5s ease;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .text_img:hover .overlay {
+        opacity: 0.8;
+        background: #78a9c2;
+    }
+
+</style>
 <div class="row row-cols-1 row-cols-sm-2 g-2">
-                    {% for c in categories %}
-                        <div class="col">
-                            <div class="card shadow-sm" onmousenter="categoryHover()">
-                                <a href="{% url 'ratemyrecipeapp:chosen_category' c.slug %}">
-								<img src="/media/{{ c.picture }}" width="100%" height="350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" />
-								<h1 style="text-align:center" "transform: translate(-50%, -50%)" "top:50%" "left:50%">
-								{{ c.name }}
-								</h1></img></a>
+    {% for c in categories %}
+    <div class="col">
+        <div class="card shadow-sm">
+            <div class="text_img">
+                <a href="{% url 'ratemyrecipeapp:chosen_category' c.slug %}">
 
-							</div>
-                        </div>
-					{% endfor %}
+                    <img src="/media/{{ c.picture }}" width="100%" height="350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#55595c" />
+                    <div class="overlay">
+                        <div class="centered_text"><text x="50%" y="50%" fill="#ffffff" dy=".3em">{{ c.name }}</text></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 
-                </div>
+</div>
 {% endblock %}
