@@ -19,7 +19,8 @@ def populate():
     # load the csv with the recipes
     r = pd.read_csv('recipes.tsv', sep='\t')
     
-    files = os.listdir(os.path.join(MEDIA_DIR, "category_images/"))
+    category_images = os.listdir(os.path.join(MEDIA_DIR, "category_images/"))
+    recipe_images = os.listdir(os.path.join(MEDIA_DIR, "recipe_images/"))
 
     # add the users
     users = r.added_by.unique()
@@ -30,9 +31,10 @@ def populate():
         r_user = r[mask].copy()
         # add the categories
         cats = r_user.cat.unique()
+        
         for counter in range(0, len(cats)):
             c = cats[counter]
-            for file in files:
+            for file in category_images:
                 new_file = file.strip('.jpg')
                 if new_file == c:
                     picture = "category_images/{0}".format(file)
@@ -52,9 +54,14 @@ def populate():
                 cost = r_info['cost']
                 time = r_info['time']
 
+                for file in recipe_images:
+                    new_file = file.strip('.jpg')
+                    if new_file == r_title:
+                        picture = "recipe_images/{0}".format(file)
+                    
                 new_recipe = add_recipe(
                     r_title, category, ing, dirs,
-                    veg, vegt, cost, time, user
+                    veg, vegt, cost, time, user, picture=picture
                 )
 
     #  add the ratings to the recipes
@@ -92,13 +99,13 @@ def add_category(cat_name, picture):
     return c
 
 
-def add_recipe(title, cat, ing, dirs, veg, vegt, cost, time, user):
+def add_recipe(title, cat, ing, dirs, veg, vegt, cost, time, user, picture):
     r = Recipe.objects.get_or_create(
         title=title, category=cat,
         ingredients=ing, directions=dirs, 
         is_vegan=veg, is_vegetarian=vegt,
         cost=cost, time_needed=time,
-        added_by=user
+        added_by=user, picture=picture
     )[0]
     r.save()
     return r
