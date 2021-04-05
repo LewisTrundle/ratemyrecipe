@@ -169,6 +169,7 @@ def trending(request):
      
     amount = 5
     # Returns the top 5 ratings
+    context_dict['recipes']=pop_ratings[:amount]
     context_dict['ratings'] = pop_ratings[:amount]
     context_dict['amount'] = amount
     
@@ -184,15 +185,6 @@ def my_account(request):
 
 @login_required
 def add_recipe(request, category_name_slug):
-    try:
-        category = Category.objects.get(slug=category_name_slug)
-    except Category.DoesNotExist:
-        category = None
-
-    # if attempting to add page to category that doesn't exist
-    if category is None:
-        return redirect('/ratemyrecipe/')
-
     # Gets the recipe form from forms.py
     form = RecipeForm()
 
@@ -201,19 +193,18 @@ def add_recipe(request, category_name_slug):
         u=request.user
         user=UserProfile.objects.get(id=u.id)
         if form.is_valid():
-            if category:
-                recipe = form.save(commit=False)
-                recipe.added_by=user
-                recipe.category = category
-                recipe.save()
-                return redirect('ratemyrecipe/categories')
+            recipe = form.save(commit=False)
+            recipe.added_by=user
+            recipe.category = Category.objects.get(slug=category_name_slug)
+            recipe.save()
+            return redirect('ratemyrecipeapp/categories.html')
 
         else:
             print(form.errors)
     
     context_dict = {} 
     context_dict['form']=form
-    context_dict['category']=category
+    context_dict['category']=Category.objects.get(slug=category_name_slug)
 
     return render(request, 'ratemyrecipeapp/add_recipe.html', context=context_dict)
 

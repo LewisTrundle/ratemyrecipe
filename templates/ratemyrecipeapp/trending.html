@@ -28,18 +28,25 @@ Trending Recipe - Rate My Recipe
                     </li>
 {% endblock %}
 {% block body_block %}
+<div class="card text-white bg-secondary my-5 py-4 text-center">
 			<h1 class="text-white m-0"><u>Showing the top <b>{{amount}}</b> recipes</u></h1>
-{% for rating in ratings %}
+</div>
+{% for r in recipes %}
     		<div class="card text-white bg-secondary my-5 py-4 text-center">
     			<div class="card-body">
-    			<h1 class="text-white m-0">Trending right now: {{ rating.recipe.title }} </h1>
+    			<h1 class="text-white m-0">Trending right now: {{ r.recipe.title }} </h1>
 				
-				<p class="text-white m-0">No. of stars: 
-				<p id="avgrating">{{rating.rating}}</p>
-				</p>
+				<span id="hidden"><p id="avgrating">{{ r.rating }}</p></span>
+				<div class="stars">
+					<span class="fa fa-star fa-3x"></span>
+					<span class="fa fa-star fa-3x"></span>
+					<span class="fa fa-star fa-3x"></span>
+					<span class="fa fa-star fa-3x"></span>
+					<span class="fa fa-star fa-3x"></span>
+				</div>
 				
-    			<p class="text-white m-0">Is vegan: {{ rating.recipe.is_vegan }}</p>
-    			<p class="text-white m-0">Is vegetarian: {{ rating.recipe.is_vegetarian }}</p>
+    			<p class="text-white m-0">Is vegan: {{ r.recipe.is_vegan }}</p>
+    			<p class="text-white m-0">Is vegetarian: {{ r.recipe.is_vegetarian }}</p>
     			</div>
     		</div>
     		
@@ -48,15 +55,23 @@ Trending Recipe - Rate My Recipe
     		</div>
     		<div>
     			<h3>Ingredients:</h3>
-    				<p class="text-black m-0">Cost:{{ rating.recipe.cost }}</p>
-    				<p class="text-black m-0">{{ rating.recipe.ingredients }}</p>
+    				<p class="text-black m-0">Cost:{{ r.recipe.cost }}</p>
+    				<p class="text-black m-0">{{ r.recipe.ingredients }}</p>
     		</div>
     		<div>
     			<h3>Method:</h3>
+<<<<<<< HEAD
     				<p class="text-black m-0">Time: {{ rating.recipe.time_needed }}</p>
     				<p class="text-black m-0">{{ rating.recipe.directions }}</p>
+=======
+    				<p class="text-black m-0">Time: {{ r.ecipe.time_needed }}</p>
+    				<p class="text-black m-0">{{ r.recipe.directions }}</p>
+>>>>>>> c9b1cfc9e747c8573f2fdbf3058c415762930a09
     				
     		</div>
+    		
+    		
 			{% endfor %}
+</div>
 {% endblock %}
 

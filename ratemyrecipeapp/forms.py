@@ -25,21 +25,17 @@ class RecipeForm(forms.ModelForm):
         max_length=Recipe.TITLE_MAX_LENGTH,
         help_text='Recipe title'
     )
-    category = forms.CharField(
-        widget=forms.HiddenInput(), 
-        required=False
-    )
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     ingredients = forms.CharField(
         max_length=Recipe.TEXT_MAX_LENGTH,
-        widget=forms.Textarea,
-        empty_value='What ingredients do you need?'
+        widget=forms.Textarea(attrs={'style': "width:100%;"}),
+        help_text='What ingredients do you need?'
     )
     directions = forms.CharField(
         max_length=Recipe.TEXT_MAX_LENGTH,
-        widget=forms.Textarea(),
-        empty_value='How do you cook this amazing recipe?'
+        widget=forms.Textarea(attrs={'style': "width:100%;"}),
+       help_text='How do you cook this amazing recipe?'
     )
 
     is_vegan = forms.BooleanField(required=False,
@@ -63,7 +59,8 @@ class RecipeForm(forms.ModelForm):
 
     class Meta:
         model = Recipe
-        exclude = ('added_by', 'slug', )
+
+        exclude = ('added_by', 'slug','category' )
 
 
 class RatingForm(forms.ModelForm):
