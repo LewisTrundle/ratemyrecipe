@@ -35,9 +35,11 @@ Trending Recipe - Rate My Recipe
     			<div class="card-body">
     			<h1 class="text-white m-0">Trending right now: {{ r.recipe.title }} </h1>
 				
-				<span id="hidden"><p id="avgrating">{{ r.rating }}</p></span>
+				<span id="hidden">
+				<p id="avgrating">{{ r.rating }}</p>
+				</span>
 				<div class="stars">
-					<span class="fa fa-star fa-3x"></span>
+            				<span class="fa fa-star fa-3x"></span>
 					<span class="fa fa-star fa-3x"></span>
 					<span class="fa fa-star fa-3x"></span>
 					<span class="fa fa-star fa-3x"></span>
@@ -50,7 +52,7 @@ Trending Recipe - Rate My Recipe
     		</div>
     		
     		<div class="row align-items-center my-5">
-    			<img src="/media/{{ r.recipe.picture }}" width="70%" height="350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ r.recipe.title }}</text></img
+    			<img src="/media/{{ r.recipe.picture }}" width="70%" height="350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /></img>
     		</div>
     		<div>
     			<h3>Ingredients:</h3>

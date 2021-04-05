@@ -175,7 +175,6 @@ def trending(request):
     
     return render(request, 'ratemyrecipeapp/trending.html', context=context_dict)
     
-
     
 def my_account(request):
     context_dict = {}
