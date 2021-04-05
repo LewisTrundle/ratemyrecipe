@@ -278,7 +278,7 @@ def user_login(request):
                 return HttpResponse("Your RateMyRecipe account is disabled.")
         else:
             # Bad login details provided, so doesn't log in
-            print(f"Invalid login details: {username}, {password}")
+            print("Invalid login details: {username}, {password}")
             return HttpResponse("Invalid login details supplied.")
 
     # The request is not HTTP POST, so display login form
