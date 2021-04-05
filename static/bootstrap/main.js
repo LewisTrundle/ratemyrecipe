@@ -5,10 +5,10 @@ const three = document.getElementById('third')
 const four = document.getElementById('fourth')
 const five = document.getElementById('fifth')
 
-//const avgrating = document.getElementsByClassName('avgrating')
+
 const avgrating = document.getElementById('avgrating').innerHTML
 document.getElementById("hidden").style.cssText = "font-size: 0.01px; color: black; "
-
+	
 
 const stars = document.querySelector('.stars')
 const form = document.querySelector('.rate-form')
@@ -16,8 +16,13 @@ const confirmBox = document.getElementById('confirm-box')
 const csrf = document.getElementsByName('csrfmiddlewaretoken')
 
 
+
 const handleStarSelect = (size, place) => {
 	const children = place.children
+	
+	for (let j=0; j < children.length; j++) {
+		children[j].classList.remove('checked')
+	}
 	
 	for (let i=0; i < children.length; i++) {
 		if (i <= size) {
@@ -29,31 +34,33 @@ const handleStarSelect = (size, place) => {
 }
 
 
-
-switch(avgrating) {
-	case '1': {
-		handleStarSelect(0, stars)
-		break
-	}
-	case '2': {
-		handleStarSelect(1, stars)
-		break
-	}
-	case '3': {
-		handleStarSelect(2, stars)
-		break
-	}
-	case '4': {
-		handleStarSelect(3, stars)
-		break
-	}
-	case '5': {
-		handleStarSelect(4, stars)
-		break
+const getStars = (rating) => {
+	switch(rating) {
+		case '1': {
+			handleStarSelect(0, stars)
+			break
+		}
+		case '2': {
+			handleStarSelect(1, stars)
+			break
+		}
+		case '3': {
+			handleStarSelect(2, stars)
+			break
+		}
+		case '4': {
+			handleStarSelect(3, stars)
+			break
+		}
+		case '5': {
+			handleStarSelect(4, stars)
+			break
+		}
 	}
 }
 	
-	
+
+
 	
 const handleSelect = (selection) => {
 	switch(selection){
@@ -112,7 +119,11 @@ const getNumericValue = (stringValue) => {
 
 
 
+getStars(avgrating)
+
+
 if (one) {
+
 	const arr = [one, two, three, four, five]
 	
 	arr.forEach(item=> item.addEventListener('mouseover', (event)=>{
@@ -132,15 +143,15 @@ if (one) {
 			}
 			isSubmit = true
 			
-			const val_num = getNumericValue(val)
+			var val_num = getNumericValue(val)
 			
 			
 			$.ajax({
-				type: 'POST',
+				type: 'GET',
 				url: '/ratemyrecipe/rate/',
 				data: {
-					'csrfmiddlewaretoken': csrf[0].value,
 					'val': val_num,
+					'csrfmiddlewaretoken': csrf[0].value,
 				},
 				processData: false,
 				contentType: false,

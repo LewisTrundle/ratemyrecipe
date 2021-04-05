@@ -127,26 +127,23 @@ def chosen_recipe(request, category_name_slug, recipe_name_slug):
 def trending(request):
     context_dict = {}
     
-    # Gets the highest ratings
-    highest_ratings = Rating.objects.order_by('-rating')
-    pop_ratings = [highest_ratings[0]]
-    for rating in highest_ratings:
-        if rating.recipe not in pop_ratings:
-                pop_ratings.append(rating)
-        
-    """
-    # Goes through each rating
+    # Creates two empty lists
+    pop_ratings = []
     pop_recipes = []
+    
+    # Gets all the ratings in order of highest
+    highest_ratings = Rating.objects.order_by('-rating')
+    
+    # Goes through each rating and adds it to list if the recipe is not already there
     for rating in highest_ratings:
         recipe = Recipe.objects.get(title = rating.recipe.title)
-        # Recipe added if it isn't in pop_recipes already
         if recipe not in pop_recipes:
+            pop_ratings.append(rating)
             pop_recipes.append(recipe)
-    """
+        
     
-    # Returns the top 5 recipes
-    #context_dict['recipes'] = pop_recipes[:5]
-    context_dict['ratings'] = pop_ratings[:5]
+    # Returns the top 5 ratings
+    context_dict['ratings'] = pop_ratings[:15]
     
     return render(request, 'ratemyrecipeapp/trending.html', context=context_dict)
     
@@ -286,8 +283,8 @@ def user_logout(request):
 # Currently, all ratings are 1 for Recipe 20
 @csrf_exempt
 def rate_recipe(request):
-    if request.method == 'POST':
-        val = request.POST.get('val')
+    if request.method == 'GET':
+        val = request.GET.get('val')
         u = request.user
         title = request.POST.get('title')
         
@@ -296,7 +293,7 @@ def rate_recipe(request):
         recipes = Recipe.objects.get(title='Recipe 20')
             
         r = Rating.objects.create(
-                rating=1,
+                rating=val,
                 rated_by=user,
                 recipe=recipes)
 
