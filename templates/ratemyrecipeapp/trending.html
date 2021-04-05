@@ -31,7 +31,7 @@ Trending Recipe - Rate My Recipe
 <div class="card text-white bg-secondary my-5 py-4 text-center">
 			<h1 class="text-white m-0"><u>Showing the top <b>{{amount}}</b> recipes</u></h1>
 </div>
-{% for r in recipes %}
+{% for r in ratings %}
     		<div class="card text-white bg-secondary my-5 py-4 text-center">
     			<div class="card-body">
     			<h1 class="text-white m-0">Trending right now: {{ r.recipe.title }} </h1>
