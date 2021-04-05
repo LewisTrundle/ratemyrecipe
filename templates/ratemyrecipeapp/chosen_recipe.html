@@ -5,15 +5,13 @@
 {{recipe.title}} - Rate My Recipe
 {% endblock %}
 {% block content %}
-<a class="navbar-brand" href="{% url 'ratemyrecipeapp:index' %}">Rate My Recipe</a>
 {% endblock %}
 
 {% block nav %}
 
-<li class="nav-item active">
+<li class="nav-item">
     <a class="nav-link" href="{% url 'ratemyrecipeapp:index' %}">
         Home
-        <span class="sr-only">(current)</span>
     </a>
 
 </li>
@@ -36,7 +34,7 @@
 <div class="card text-white bg-secondary my-5 py-4 text-center">
     <div class="card-body">
         <h1 class="text-white m-0"><div id="title">{{ recipe.title }}</div></h1>
-
+        
 
         <span id="hidden"><p id="avgrating">{{rating }}</p></span>
 
@@ -52,34 +50,43 @@
         <a class="btn btn-primary" href="{% url 'ratemyrecipeapp:chosen_category' recipe.category.slug %}">Go back to category</a>
     </div>
 </div>
+
+
 <div class="row align-items-center my-5">
-<img src="/media/{{ recipe.picture }}" width="70%" height="350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em"></img>
-</div>
-<div>
-    <h3>Ingredients:</h3>
-    <p class="text-black m-0">Cost: £{{ recipe.cost }}</p>
-    <p class="text-black m-0">{{ recipe.ingredients }}</p>
-</div>
-<div>
-    <h3>Method:</h3>
-    <p class="text-black m-0">Time: {{ recipe.time_needed }}</p>
-    <p class="text-black m-0">{{ recipe.directions }}</p>
+    
+        <img class="img-fluid rounded mb-4 mb-lg-0" src="/media/{{ recipe.picture }}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">
+        </text>
+            <div class="col">
+                <h3>Ingredients:</h3>
+                <p class="text-black m-0">{{ recipe.ingredients }}</p>
+                <p class="text-black m-0">Cost: £{{ recipe.cost }}</p>
 
-</div>
+            </div>
 
-<br>
+            <div class="col">
+                <h3>Method:</h3>
 
-			{% if user.is_authenticated %}
-<h3>How would you rate this recipe?</h3>
-<form class="rate-form" method="POST" action="{%url 'ratemyrecipeapp:chosen_recipe' recipe.slug %}" id="{{object.id}}">
-    {% csrf_token %}
-    <button type="submit" class="fa fa-star fa-3x my-btn" id="first"></button>
-    <button type="submit" class="fa fa-star fa-3x my-btn" id="second"></button>
-    <button type="submit" class="fa fa-star fa-3x my-btn" id="third"></button>
-    <button type="submit" class="fa fa-star fa-3x my-btn" id="fourth"></button>
-    <button type="submit" class="fa fa-star fa-3x my-btn" id="fifth"></button>
-</form>
-<br>
-<div id="confirm-box"></div>
-			{% endif %}
-{% endblock %}
+                <p class="text-black m-0">{{ recipe.directions }}</p>
+                <p class="text-black m-0">Time: {{ recipe.time_needed }}</p>
+
+            </div>
+
+    {% if user.is_authenticated %}
+    <div class="col">
+        <h3>How would you rate this recipe?</h3>
+        <form class="rate-form" method="POST" action="{%url 'ratemyrecipeapp:chosen_recipe' recipe.slug %}" id="{{object.id}}">
+            {% csrf_token %}
+            <button type="submit" class="fa fa-star fa-3x my-btn" id="first"></button>
+            <button type="submit" class="fa fa-star fa-3x my-btn" id="second"></button>
+            <button type="submit" class="fa fa-star fa-3x my-btn" id="third"></button>
+            <button type="submit" class="fa fa-star fa-3x my-btn" id="fourth"></button>
+            <button type="submit" class="fa fa-star fa-3x my-btn" id="fifth"></button>
+        </form>
+        <br>
+        <div id="confirm-box"></div>
+    </div>
+    </div>
+
+
+    {% endif %}
+    {% endblock %}
