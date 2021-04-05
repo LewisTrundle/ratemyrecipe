@@ -25,6 +25,9 @@ My Account - Rate My Recipe
                     </li>
 {% endblock %}
 {% block body_block %}
+<div class="card text-white bg-secondary my-5 py-4 text-center">
+			<div class="card-body">
+
 <ul>
 			{% if recipes %}
 				{% for r in recipes %}
@@ -36,5 +39,6 @@ My Account - Rate My Recipe
 				<p class="m-0 text-center text-white">You haven't added any recipes.</p>
 			{% endif %}
 </ul>
-		
+</div>
+</div>	
 {% endblock %}

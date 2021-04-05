@@ -30,7 +30,10 @@
                     </li>
 {% endblock %}
 {% block body_block %}
-<h1 class="text-white m-0"><div id="title"> {{ recipe.title }} </div></h1>
+<div class="card text-white bg-secondary my-5 py-4 text-center">
+    			<div class="card-body">
+    			<h1 class="text-white m-0"><div id="title"> {{ recipe.title }} </div></h1>
+
     			<span id="hidden"><p id="avgrating">{{rating }}</p></span>
 				
 				<div class="stars">

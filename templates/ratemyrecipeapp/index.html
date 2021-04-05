@@ -9,6 +9,7 @@ Home - Rate My Recipe
 {% endblock %}
 
 {% block nav %}
+
 <li class="nav-item active">
                         <a class="nav-link" href="{% url 'ratemyrecipeapp:index' %}">Home
                         <span class="sr-only">(current)</span>
@@ -30,6 +31,8 @@ Home - Rate My Recipe
                     </li>
 {% endblock %}
 {% block body_block %}
+<div class="card text-white bg-secondary my-5 py-4 text-center">
+            <div class="card-body">
 {% if user.is_authenticated %}
                 <!--Relies on user model-->
                 <p class="text-white m-0">Welcome back to Rate My Recipe, {{ user.username }}!</p>
@@ -72,4 +75,6 @@ Home - Rate My Recipe
 				<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:login' %}">Login</a>
                 <a class="btn btn-primary" href="{% url 'ratemyrecipeapp:signUp' %}">Sign Up</a>
 			{% endif %}
+</div>
+</div>
 {% endblock %}

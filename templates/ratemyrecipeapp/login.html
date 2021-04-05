@@ -25,7 +25,10 @@ Login - Rate My Recipe
                     </li>
 {% endblock %}
 {% block body_block %}
-<h1 class="font-weight-light">Login</h1>
+<div class="card text-white bg-secondary my-5 py-4 text-center">
+			<div class="card-body">
+			<h1 class="font-weight-light">Login</h1>
+
 			<p class="text-white m-0">Welcome back! Login to rate my recipes!</p>
 			<form id="login_form" method="post" action="{%url 'ratemyrecipeapp:login' %}">
 				{% csrf_token %}
@@ -36,4 +39,6 @@ Login - Rate My Recipe
 			</form>
 			<p class="text-white m-0">Don't have an account?</p>
 			<a class="btn-primary" href="{% url 'ratemyrecipeapp:signUp' %}">Sign Up</a>
+</div>
+</div>
 {% endblock %}
