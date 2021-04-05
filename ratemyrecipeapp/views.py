@@ -15,7 +15,8 @@ import json
 
 
 def index(request):
-
+    context_dict = {}
+    
     # Picks a random recipe
     ran_recipe = Recipe.objects.order_by('?').first()
     # Gets all the ratings associated with that recipe
@@ -25,12 +26,15 @@ def index(request):
     avg_rating_dict = ratings.aggregate(Avg('rating'))
     # Gets the value in the dict
     avg_rating = avg_rating_dict['rating__avg']
+    
+    if avg_rating is None:
+        context_dict['rating'] = 1
+    else:
+        context_dict['rating'] = int(avg_rating)
 
 
-    context_dict = {}
     context_dict['Recipe'] = ran_recipe
-    # Must be an integer for stars
-    context_dict['rating'] = int(avg_rating)
+    
 
     return render(request, 'ratemyrecipeapp/index.html', context=context_dict)
 
@@ -67,7 +71,12 @@ def chosen_category(request, category_name_slug):
         ratings = Rating.objects.filter(recipe=recipe)
         avg_rating_dict = ratings.aggregate(Avg('rating'))
         avg_rating = avg_rating_dict['rating__avg']
-        averages.append(int(avg_rating))
+        
+        if avg_rating is None:
+            averages[0] == 1
+        else:
+            averages.append(int(avg_rating))
+        
         
     context_dict['recipes'] = recipes
     context_dict['category'] = category
@@ -106,8 +115,11 @@ def chosen_recipe(request, category_name_slug, recipe_name_slug):
         # Gets the value in the dict
         avg_rating = avg_rating_dict['rating__avg']
         
-        # Has to be an integer
-        context_dict['rating'] = int(avg_rating)
+        
+        if avg_rating is None:
+            context_dict['rating'] = 1
+        else:
+            context_dict['rating'] = int(avg_rating)
         
         
         
