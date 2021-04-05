@@ -25,10 +25,9 @@ class RecipeForm(forms.ModelForm):
         max_length=Recipe.TITLE_MAX_LENGTH,
         help_text='Recipe title'
     )
-    category = forms.ModelChoiceField(
-        queryset=Category.objects.all(),
-        to_field_name='name',
-        help_text='Select a category'
+    category = forms.CharField(
+        widget=forms.HiddenInput(), 
+        required=False
     )
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
