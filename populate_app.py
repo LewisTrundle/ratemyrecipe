@@ -11,11 +11,15 @@ from django.contrib.auth.models import User
 import pandas as pd
 from datetime import datetime, timedelta
 import random
+import os
+from ratemyrecipe.settings import MEDIA_DIR
 
 def populate():
 
     # load the csv with the recipes
     r = pd.read_csv('recipes.tsv', sep='\t')
+    
+    files = os.listdir(os.path.join(MEDIA_DIR, "category_images/"))
 
     # add the users
     users = r.added_by.unique()
@@ -26,8 +30,14 @@ def populate():
         r_user = r[mask].copy()
         # add the categories
         cats = r_user.cat.unique()
-        for c in cats:
-            category = add_category(c)
+        for counter in range(0, len(cats)):
+            c = cats[counter]
+            for file in files:
+                new_file = file.strip('.jpg')
+                if new_file == c:
+                    picture = "category_images/{0}".format(file)
+            
+            category = add_category(c, picture)
             # get the recipes in that category
             mask = r_user['cat'] == c
             r_cats = r_user[mask].copy()
@@ -76,8 +86,8 @@ def add_user(username):
     return rmr_user
 
 
-def add_category(cat_name):
-    c = Category.objects.get_or_create(name=cat_name)[0]
+def add_category(cat_name, picture):
+    c = Category.objects.get_or_create(name=cat_name, picture=picture)[0]
     c.save()
     return c
 

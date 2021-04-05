@@ -6,11 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
-from ratemyrecipeapp.forms import RecipeForm, UserForm, UserProfileForm, RatingForm
-from ratemyrecipe.settings import STATIC_DIR
+from ratemyrecipeapp.forms import RecipeForm, UserForm, UserProfileForm
+from ratemyrecipe.settings import MEDIA_DIR
 import os
-from django.views.decorators.csrf import csrf_protect, csrf_exempt
-import json
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -42,14 +41,11 @@ def index(request):
 def categories(request):
     categories = list(Category.objects.all())
     
-    files = os.listdir(os.path.join(STATIC_DIR, "images/Categories/"))
+    files = os.listdir(os.path.join(MEDIA_DIR, "category_images/"))
     
-    file_names = ["American.jpg", "Asian.jpg"]
-
     context_dict = {}
     context_dict['categories'] = categories
     context_dict['files'] = files
-    context_dict['file_names'] = file_names
 
     return render(request, 'ratemyrecipeapp/categories.html', context=context_dict)
 
@@ -110,7 +106,7 @@ def chosen_recipe(request, category_name_slug, recipe_name_slug):
         context_dict['recipe'] = recipe
         ratings = Rating.objects.filter(recipe=recipe)
         
-        # Calculates the avergae rating and stores as a dictionary
+        # Calculates the average rating and stores as a dictionary
         avg_rating_dict = ratings.aggregate(Avg('rating'))
         # Gets the value in the dict
         avg_rating = avg_rating_dict['rating__avg']
@@ -286,7 +282,6 @@ def user_logout(request):
 
 
 
-# Currently, all ratings are 1 for Recipe 20
 @csrf_exempt
 def rate_recipe(request):
     if request.method == 'GET':
