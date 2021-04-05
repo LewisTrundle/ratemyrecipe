@@ -27,6 +27,9 @@ My Account - Rate My Recipe
 {% endblock %}
 
 {% block body_block %}
+<div class="card text-white bg-secondary my-5 py-4 text-center">
+			<div class="card-body">
+
 {% if user.is_authenticated %}
 			
 				<p class="text-white m-0">Welcome to Rate My Recipe, {{ user.username }}!</p>
@@ -48,5 +51,7 @@ My Account - Rate My Recipe
 				<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:signUp' %}">Sign Up</a>
 				
 			{% endif %}
+</div>
+</div>
 		
 {% endblock %}

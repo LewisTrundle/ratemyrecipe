@@ -28,7 +28,11 @@ Add {{category.name}} Recipe - Rate My Recipe
 {% endblock %}
 
 {% block body_block %}
-{% if user.is_authenticated %}
+ <!-- Heading Row -->
+        <!-- Call to Action Well -->
+        <div class="card text-white bg-secondary my-5 py-4 text-center">
+            <div class="card-body">
+		{% if user.is_authenticated %}
                 <!--Relies on user model-->
                 <p class="text-white m-0">
                     Hi {{ user.username }}! </br>
@@ -52,4 +56,6 @@ Add {{category.name}} Recipe - Rate My Recipe
                     </div>
                 </div>
         </form>
+      	</div>
+      </div>
 {% endblock %}
