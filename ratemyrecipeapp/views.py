@@ -93,7 +93,18 @@ def random_recipe(request, recipe_name_slug):
     try:
         recipe = Recipe.objects.get(slug=recipe_name_slug)
         context_dict['recipe'] = recipe
+        ratings = Rating.objects.filter(recipe=recipe)
         
+        # Calculates the avergae rating and stores as a dictionary
+        avg_rating_dict = ratings.aggregate(Avg('rating'))
+        # Gets the value in the dict
+        avg_rating = avg_rating_dict['rating__avg']
+        
+        
+        if avg_rating is None:
+            context_dict['rating'] = 1
+        else:
+            context_dict['rating'] = int(avg_rating)
         
     except:
         context_dict['recipe'] = None
