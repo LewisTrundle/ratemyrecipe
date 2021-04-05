@@ -1,3 +1,4 @@
+
 {% extends 'ratemyrecipeapp/base.html' %}
 {% load staticfiles %}
 
@@ -24,54 +25,48 @@ My Account - Rate My Recipe
                         <span class="sr-only">(current)</span>
                     </li>
 {% endblock %}
+
 {% block body_block %}
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Showing every recipe you have rated</h1>
+            <p>
+                <a href="{% url 'ratemyrecipeapp:account' %}" class="btn btn-primary my-2">Go back to My Account</a>
+            </p>
+            
+        </div>
+    </div>
+</section>
 
-<div class="card text-white bg-secondary my-5 py-4 text-center">
+<div class="row row-cols-1 row-cols-sm-2 g-2">
+{% if ratings %}
+    {% for r in ratings %}
+    <div class="col">
+        <div class="card shadow-sm">
+            <a href="{% url 'ratemyrecipeapp:chosen_recipe' r.recipe.category.slug r.recipe.slug %}"><img src="/media/{{ r.recipe.picture }}" width="100%" height="350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ r.recipe.title }}</text></img></a>
+            <div class="card-body">
+                <h4>{{ r.recipe.title }}</h4>
+                <p id="avgrating">{{ rating }}</p>
 
-			<h1 class="text-white m-0">Showing every recipe you have rated</h1>
+                <p class="card-text">{{ r.recipe.ingredients}}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="{% url 'ratemyrecipeapp:chosen_recipe' r.recipe.category.slug r.recipe.slug %}"><button type="button" class="btn btn-sm btn-outline-secondary">View Recipe</button></a>
+                    </div>
+                    <small class="text-muted">{{r.recipe.time_needed}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+	<div class="py-3 text-center container">
+	<h2>You haven't rated any recipes.</h2>
+	</div>
+{% endif %}
+
+
 </div>
-<div class="card text-white bg-secondary my-5 py-4 text-center">
-
-			{% if ratings %}
-				{% for r in ratings %}
-				<div class="card text-white bg-secondary my-5 py-4 text-center">
-    				<div class="card-body">
-						<a href="{% url 'ratemyrecipeapp:chosen_recipe' r.recipe.category.slug r.recipe.slug %}">{{ r.recipe.title }}</a>
-						
-						<p class="text-white m-0">You rated this:
-						<p id="avgrating">{{r.rating}}</p>
-						</p>
-						
-						<p class="text-white m-0">Is vegan: {{ r.recipe.is_vegan }}</p>
-						<p class="text-white m-0">Is vegetarian: {{ r.recipe.is_vegetarian }}</p>
-					</div>
-					</div>
-				
-				
-    				<div class="row align-items-center my-5">
-					<img class="img-fluid rounded mb-4 mb-lg-0" src="http://placehold.it/900x400" alt="">
-				</div>
-				<div>
-					<h3>Ingredients:</h3>
-					<p class="text-black m-0">Cost: £{{ r.recipe.cost }}</p>
-					<p class="text-black m-0">{{ r.recipe.ingredients }}</p>
-				</div>
-				<div>
-					<h3>Method:</h3>
-    				<p class="text-black m-0">Time: {{ r.recipe.time_needed }}</p>
-    				<p class="text-black m-0">{{ r.recipe.directions }}</p>
-    				
-				</div>
-				{% endfor %}
-				
-			{% else %}
-				<p class="m-0 text-center text-white">You haven't rated any recipes.</p>
-			{% endif %}
-</div>	
-
-	
-
-		
-
 {% endblock %}
 

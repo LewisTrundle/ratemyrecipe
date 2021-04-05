@@ -1,3 +1,4 @@
+
 {% extends 'ratemyrecipeapp/base.html' %}
 {% load staticfiles %}
 
@@ -11,7 +12,7 @@ My Account - Rate My Recipe
 {% block nav %}
 <li class="nav-item ">
                         <a class="nav-link" href="{% url 'ratemyrecipeapp:index' %}">Home</a>
-                           
+                         
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'ratemyrecipeapp:categories' %}">Categories</a>
@@ -24,59 +25,48 @@ My Account - Rate My Recipe
                         <span class="sr-only">(current)</span>
                     </li>
 {% endblock %}
+
 {% block body_block %}
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Showing every recipe you have added</h1>
+            <p>
+                <a href="{% url 'ratemyrecipeapp:account' %}" class="btn btn-primary my-2">Go back to My Account</a>
+            </p>
+            
+        </div>
+    </div>
+</section>
 
-<div class="card text-white bg-secondary my-5 py-4 text-center">
-			<div class="card-body">
+<div class="row row-cols-1 row-cols-sm-2 g-2">
+{% if ratings %}
+    {% for r in recipes %}
+    <div class="col">
+        <div class="card shadow-sm">
+            <a href="{% url 'ratemyrecipeapp:chosen_recipe' r.category.slug r.slug %}"><img src="/media/{{ r.picture }}" width="100%" height="350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ r.title }}</text></img></a>
+            <div class="card-body">
+                <h4>{{ r.title }}</h4>
+                <p id="avgrating">{{ rating }}</p>
 
-<ul>
-
-			<h1 class="text-white m-0">Showing recipes you have submitted</h1>
-	<div class="card text-white bg-secondary my-5 py-4 text-center">
-	<div class="card-body">
-			{% if recipes %}
-				{% for r in recipes %}
-				
-					
-					
-					<h1 class="text-white m-0">
-					<a href="{% url 'ratemyrecipeapp:chosen_recipe' r.category.slug r.slug %}">{{ r.title }}</a>
-					</h1>
-					
-					<p class="text-white m-0">You rated this:
-					<p id="avgrating">{{r.rating}}</p>
-					</p>
-					
-					<p class="text-white m-0">Is vegan: {{ r.recipe.is_vegan }}</p>
-					<p class="text-white m-0">Is vegetarian: {{ r.recipe.is_vegetarian }}</p>
-					</div>
-				
-			
-				<div class="row align-items-center my-5">
-					<img class="img-fluid rounded mb-4 mb-lg-0" src="/media/{{r.picture}}" alt="">
-				</div>
-				<div>
-					<h3>Ingredients:</h3>
-					<p class="text-black m-0">Cost: £{{ r.recipe.cost }}</p>
-					<p class="text-black m-0">{{ r.recipe.ingredients }}</p>
-				</div>
-				<div>
-					<h3>Method:</h3>
-    				<p class="text-black m-0">Time: {{ r.recipe.time_needed }}</p>
-    				<p class="text-black m-0">{{ r.recipe.directions }}</p>
-    				
-				</div>
-				{% endfor %}
-			{% else %}
-				<p class="m-0 text-center text-white">You haven't added any recipes.</p>
-			{% endif %}
+                <p class="card-text">{{ r.ingredients}}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="{% url 'ratemyrecipeapp:chosen_recipe' r.category.slug r.slug %}"><button type="button" class="btn btn-sm btn-outline-secondary">View Recipe</button></a>
+                    </div>
+                    <small class="text-muted">{{r.time_needed}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+	<div class="py-3 text-center container">
+	<h2>You haven't added any recipes.</h2>
+	</div>
+{% endif %}
 
 
 </div>
-</ul>
-</div>	
-
-
-		
- 
 {% endblock %}
+
