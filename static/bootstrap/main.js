@@ -8,7 +8,7 @@ const five = document.getElementById('fifth')
 
 const avgrating = document.getElementById('avgrating').innerHTML
 document.getElementById("hidden").style.cssText = "font-size: 0.01px; color: black; "
-	
+
 
 const stars = document.querySelector('.stars')
 const form = document.querySelector('.rate-form')
@@ -123,6 +123,8 @@ getStars(avgrating)
 
 
 if (one) {
+	
+	const title = document.getElementById('title').innerHTML
 
 	const arr = [one, two, three, four, five]
 	
@@ -151,10 +153,10 @@ if (one) {
 				url: '/ratemyrecipe/rate/',
 				data: {
 					'val': val_num,
+					'title': title,
 					'csrfmiddlewaretoken': csrf[0].value,
 				},
-				processData: false,
-				contentType: false,
+				dataType: "json",
 				success: function(response) {
 					
 					console.log(response)

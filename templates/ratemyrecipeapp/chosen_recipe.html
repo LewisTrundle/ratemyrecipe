@@ -30,7 +30,7 @@
                     </li>
 {% endblock %}
 {% block body_block %}
-<h1 class="text-white m-0"><div id="title"> {{ recipe.title }} </div></h1>
+<h1 class="text-white m-0"><div id="title">{{ recipe.title }}</div></h1>
     			<span id="hidden"><p id="avgrating">{{rating }}</p></span>
 				
 				<div class="stars">
@@ -50,8 +50,8 @@
     		</div>
     		<div>
     			<h3>Ingredients:</h3>
-    				<p class="text-white m-0">Cost:{{ recipe.cost }}</p>
-    				<p class="text-white m-0">{{ recipe.ingredients }}</p>
+    				<p class="text-black m-0">Cost: £{{ recipe.cost }}</p>
+    				<p class="text-black m-0">{{ recipe.ingredients }}</p>
     		</div>
     		<div>
     			<h3>Method:</h3>

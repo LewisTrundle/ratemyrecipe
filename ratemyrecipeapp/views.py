@@ -140,10 +140,11 @@ def trending(request):
         if recipe not in pop_recipes:
             pop_ratings.append(rating)
             pop_recipes.append(recipe)
-        
-    
+     
+    amount = 10
     # Returns the top 5 ratings
-    context_dict['ratings'] = pop_ratings[:15]
+    context_dict['ratings'] = pop_ratings[:amount]
+    context_dict['amount'] = amount
     
     return render(request, 'ratemyrecipeapp/trending.html', context=context_dict)
     
@@ -284,16 +285,16 @@ def user_logout(request):
 @csrf_exempt
 def rate_recipe(request):
     if request.method == 'GET':
-        val = request.GET.get('val')
+        val = request.GET['val']
         u = request.user
-        title = request.POST.get('title')
+        title = request.GET['title']
         
         # Gets the UserProfile associated with User
         user = UserProfile.objects.get(user=u)
-        recipes = Recipe.objects.get(title='Recipe 20')
+        recipes = Recipe.objects.get(title=title)
             
         r = Rating.objects.create(
-                rating=val,
+                rating=int(val),
                 rated_by=user,
                 recipe=recipes)
 

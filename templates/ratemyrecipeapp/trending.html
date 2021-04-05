@@ -28,13 +28,15 @@ Trending Recipe - Rate My Recipe
                     </li>
 {% endblock %}
 {% block body_block %}
+			<h1 class="text-white m-0"><u>Showing the top <b>{{amount}}</b> recipes</u></h1>
 {% for rating in ratings %}
     		<div class="card text-white bg-secondary my-5 py-4 text-center">
     			<div class="card-body">
     			<h1 class="text-white m-0">Trending right now: {{ rating.recipe.title }} </h1>
 				
-				<p class="avgrating">{{rating.rating }}</p>
-				
+				<p class="text-white m-0">No. of stars: 
+				<p id="avgrating">{{rating.rating}}</p>
+				</p>
 				
     			<p class="text-white m-0">Is vegan: {{ rating.recipe.is_vegan }}</p>
     			<p class="text-white m-0">Is vegetarian: {{ rating.recipe.is_vegetarian }}</p>

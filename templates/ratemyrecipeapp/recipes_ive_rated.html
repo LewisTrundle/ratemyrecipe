@@ -25,17 +25,43 @@ My Account - Rate My Recipe
                     </li>
 {% endblock %}
 {% block body_block %}
-<ul>
+			<h1 class="text-white m-0">Showing every recipe you have rated</h1>
 			{% if ratings %}
-				{% for r in recipes %}
-				<li>
-				<a href="{% url 'ratemyrecipeapp:chosen_recipe' r.category.slug r.slug %}">{{ r.title }}</a>
+				{% for r in ratings %}
+				<div class="card text-white bg-secondary my-5 py-4 text-center">
+					<div class="card-body">
+					
+						<h1 class="text-white m-0">
+						<a href="{% url 'ratemyrecipeapp:chosen_recipe' r.recipe.category.slug r.recipe.slug %}">{{ r.recipe.title }}</a>
+						</h1>
+						
+						<p class="text-white m-0">You rated this:
+						<p id="avgrating">{{r.rating}}</p>
+						</p>
+						
+						<p class="text-white m-0">Is vegan: {{ r.recipe.is_vegan }}</p>
+						<p class="text-white m-0">Is vegetarian: {{ r.recipe.is_vegetarian }}</p>
+					</div>
+				</div>
 				
-				</li>
+				<div class="row align-items-center my-5">
+					<img class="img-fluid rounded mb-4 mb-lg-0" src="http://placehold.it/900x400" alt="">
+				</div>
+				<div>
+					<h3>Ingredients:</h3>
+					<p class="text-black m-0">Cost: £{{ r.recipe.cost }}</p>
+					<p class="text-black m-0">{{ r.recipe.ingredients }}</p>
+				</div>
+				<div>
+					<h3>Method:</h3>
+    				<p class="text-black m-0">Time: {{ r.recipe.time_needed }}</p>
+    				<p class="text-black m-0">{{ r.recipe.directions }}</p>
+    				
+				</div>
 				{% endfor %}
 			{% else %}
 				<p class="m-0 text-center text-white">You haven't rated any recipes.</p>
 			{% endif %}
-</ul>
 		
 {% endblock %}
+
