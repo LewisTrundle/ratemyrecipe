@@ -184,7 +184,7 @@ def add_recipe(request, category_name_slug):
             recipe.added_by=user
             recipe.category = Category.objects.get(slug=category_name_slug)
             recipe.save()
-            return redirect('ratemyrecipeapp/categories.html')
+            return redirect(reverse('ratemyrecipeapp:index'))
 
         else:
             print(form.errors)

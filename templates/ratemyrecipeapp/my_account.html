@@ -31,17 +31,24 @@ My Account - Rate My Recipe
 			<div class="card-body">
 
 {% if user.is_authenticated %}
-			
-				<p class="text-white m-0">Welcome to Rate My Recipe, {{ user.username }}!</p>
+			<p>
+				<br class="text-white m-0">Welcome to Rate My Recipe, {{ user.username }}!</br>
+				</p>
+				<div ><p>
+	<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:my_recipes' %}">My Recipes</a>
+</p>
+				</div>
+
 				<div>
-				<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:my_recipes' %}">My Recipes</a>	
+					<p>
+						<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:recipes_ive_rated' %}">My Ratings</a>
+					</p>
 				</div>
 				<div>
-				<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:recipes_ive_rated' %}">My Ratings</a>	
-					
+					<p>
+					<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:logout' %}">Logout</a>
+					</p>
 				</div>
-				
-				<a class="btn btn-primary" href="{% url 'ratemyrecipeapp:logout' %}">Logout</a>
 				
 			{% else %}
 				
