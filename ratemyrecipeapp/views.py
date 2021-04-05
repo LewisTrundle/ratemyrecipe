@@ -69,7 +69,7 @@ def chosen_category(request, category_name_slug):
         avg_rating = avg_rating_dict['rating__avg']
         
         if avg_rating is None:
-            averages[0] == 1
+            averages.append(1)
         else:
             averages.append(int(avg_rating))
         

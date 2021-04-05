@@ -21,6 +21,8 @@ class CategoryForm(forms.ModelForm):
 
 
 class RecipeForm(forms.ModelForm):
+    error_message = 'Please enter the time in the format HH:MM. For example, 01:30 for an hour and a half.'
+
     title = forms.CharField(
         max_length=Recipe.TITLE_MAX_LENGTH,
         help_text='Recipe title'
@@ -35,7 +37,7 @@ class RecipeForm(forms.ModelForm):
     directions = forms.CharField(
         max_length=Recipe.TEXT_MAX_LENGTH,
         widget=forms.Textarea(attrs={'style': "width:100%;"}),
-       help_text='How do you cook this amazing recipe?'
+        help_text='How do you cook this amazing recipe?'
     )
 
     is_vegan = forms.BooleanField(required=False,
@@ -53,6 +55,17 @@ class RecipeForm(forms.ModelForm):
         # idk how to change this honestly
     )
 
+    def clean_time_needed(self):
+        time_needed = self.cleaned_data['time_needed']
+
+        if len(time_needed) != Recipe.TIME_NEEDED_MAX_LENGTH:
+            self.add_error(
+                'time_needed',
+                RecipeForm.error_message
+            )
+
+        return time_needed
+
     picture = forms.ImageField(
         help_text='Insert a photo of your recipe:'
     )
@@ -60,7 +73,7 @@ class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
 
-        exclude = ('added_by', 'slug','category' )
+        exclude = ('added_by', 'slug', 'category')
 
 
 class RatingForm(forms.ModelForm):
