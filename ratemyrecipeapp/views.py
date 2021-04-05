@@ -154,7 +154,20 @@ def trending(request):
             pop_ratings.append(rating)
             pop_recipes.append(recipe)
      
-    amount = 10
+        
+    averages = []
+    for counter in range(0, len(pop_recipes)):
+        recipe = pop_recipes[counter]
+        ratings = Rating.objects.filter(recipe=recipe)
+        avg_rating_dict = ratings.aggregate(Avg('rating'))
+        avg_rating = avg_rating_dict['rating__avg']
+        
+        if avg_rating is None:
+            averages[counter] == 1
+        else:
+            averages.append(int(avg_rating))
+     
+    amount = 5
     # Returns the top 5 ratings
     context_dict['ratings'] = pop_ratings[:amount]
     context_dict['amount'] = amount
