@@ -27,18 +27,16 @@ My Account - Rate My Recipe
 {% block body_block %}
 
 <div class="card text-white bg-secondary my-5 py-4 text-center">
-<ul>
 
 			<h1 class="text-white m-0">Showing every recipe you have rated</h1>
 </div>
 <div class="card text-white bg-secondary my-5 py-4 text-center">
-<div class="card-body">
+
 			{% if ratings %}
 				{% for r in ratings %}
 				<div class="card text-white bg-secondary my-5 py-4 text-center">
     				<div class="card-body">
 						<a href="{% url 'ratemyrecipeapp:chosen_recipe' r.recipe.category.slug r.recipe.slug %}">{{ r.recipe.title }}</a>
-						</h1>
 						
 						<p class="text-white m-0">You rated this:
 						<p id="avgrating">{{r.rating}}</p>
@@ -70,8 +68,7 @@ My Account - Rate My Recipe
 				<p class="m-0 text-center text-white">You haven't rated any recipes.</p>
 			{% endif %}
 </div>	
-</ul>
-</div>
+
 	
 
 		
