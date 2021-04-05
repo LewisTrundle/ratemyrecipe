@@ -160,6 +160,7 @@ def trending(request):
      
     amount = 10
     # Returns the top 5 ratings
+    context_dict['recipes']=pop_ratings[:amount]
     context_dict['ratings'] = pop_ratings[:amount]
     context_dict['amount'] = amount
     

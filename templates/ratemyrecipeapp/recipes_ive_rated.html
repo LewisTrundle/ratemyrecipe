@@ -25,19 +25,18 @@ My Account - Rate My Recipe
                     </li>
 {% endblock %}
 {% block body_block %}
-<<<<<<< HEAD
+
 <div class="card text-white bg-secondary my-5 py-4 text-center">
-			<div class="card-body">
 <ul>
-=======
+
 			<h1 class="text-white m-0">Showing every recipe you have rated</h1>
->>>>>>> 13e5c192fedcccfd2ea0c60cfe22ace4c5c8da7c
+</div>
+<div class="card text-white bg-secondary my-5 py-4 text-center">
+<div class="card-body">
 			{% if ratings %}
 				{% for r in ratings %}
 				<div class="card text-white bg-secondary my-5 py-4 text-center">
-					<div class="card-body">
-					
-						<h1 class="text-white m-0">
+    				<div class="card-body">
 						<a href="{% url 'ratemyrecipeapp:chosen_recipe' r.recipe.category.slug r.recipe.slug %}">{{ r.recipe.title }}</a>
 						</h1>
 						
@@ -48,9 +47,10 @@ My Account - Rate My Recipe
 						<p class="text-white m-0">Is vegan: {{ r.recipe.is_vegan }}</p>
 						<p class="text-white m-0">Is vegetarian: {{ r.recipe.is_vegetarian }}</p>
 					</div>
-				</div>
+					</div>
 				
-				<div class="row align-items-center my-5">
+				
+    				<div class="row align-items-center my-5">
 					<img class="img-fluid rounded mb-4 mb-lg-0" src="http://placehold.it/900x400" alt="">
 				</div>
 				<div>
@@ -65,15 +65,16 @@ My Account - Rate My Recipe
     				
 				</div>
 				{% endfor %}
+				
 			{% else %}
 				<p class="m-0 text-center text-white">You haven't rated any recipes.</p>
 			{% endif %}
-<<<<<<< HEAD
+</div>	
 </ul>
 </div>
-</div>		
-=======
+	
+
 		
->>>>>>> 13e5c192fedcccfd2ea0c60cfe22ace4c5c8da7c
+
 {% endblock %}
 
