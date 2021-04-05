@@ -1,67 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'ratemyrecipeapp/base.html' %}
 {% load staticfiles %}
 
-<head>
-
-<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Trending Recipe - Rate My Recipe</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="{% static 'bootstrap/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="{% static 'bootstrap/css/small-business.css' %}" rel="stylesheet">
-	
-	<!-- Style and javascript required for stars -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="{% static 'bootstrap/styles.css' %}" rel="stylesheet">
-	<script src="{% static 'bootstrap/main.js' %}" defer></script>
-
-</head>
-
-<body>
-
-   <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
+{% block title_block %}
+Trending Recipe - Rate My Recipe
+{% endblock %}
+{% block content %}
             <a class="navbar-brand" href="{% url 'ratemyrecipeapp:trending' %}">Rate My Recipe</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                    	<a class="nav-link" href="{% url 'ratemyrecipeapp:index' %}">Home</a>
-                       
+{% endblock %}
+
+{% block nav %}
+<li class="nav-item ">
+                        <a class="nav-link" href="{% url 'ratemyrecipeapp:index' %}">Home</a>
+                            
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'ratemyrecipeapp:categories' %}">Categories</a>
                     </li>
                     <li class="nav-item active">
-                    	<a class="nav-link" href="{% url 'ratemyrecipeapp:trending' %}">
-                            Trending
-                            <span class="sr-only">(current)</span>
+                        <a class="nav-link" href="{% url 'ratemyrecipeapp:trending' %}">
+                        Trending
+                        <span class="sr-only">(current)</span>
                         </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{% url 'ratemyrecipeapp:account' %}">My Account</a>
                         
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'ratemyrecipeapp:account' %}">My Account</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-
-    	<!-- Page content -->
-    	<div class="container">
-    		<!-- Heading Row -->
-			{% for rating in ratings %}
+{% endblock %}
+{% block body_block %}
+{% for rating in ratings %}
     		<div class="card text-white bg-secondary my-5 py-4 text-center">
     			<div class="card-body">
     			<h1 class="text-white m-0">Trending right now: {{ rating.recipe.title }} </h1>
@@ -89,25 +56,5 @@
     				
     		</div>
 			{% endfor %}
-    	</div>
-    	
-	<!-- /.container -->
-        <!-- Footer -->
-        <footer class="py-5 bg-dark">
-            <div class="container">
-                <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
-            </div>
-            <!-- /.container -->
-        </footer>
+{% endblock %}
 
-        <!-- Bootstrap core JavaScript -->
-        <script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
-        <script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-</body>
-
-</html>    	
-    			
-    			
-    			
-    	

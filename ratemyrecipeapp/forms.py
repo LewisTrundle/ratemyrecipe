@@ -52,8 +52,9 @@ class RecipeForm(forms.ModelForm):
         help_text='How much does this recipe cost?',
         error_messages={'invalid': 'Please enter a positive number.'},
     )
-    time_needed = forms.DurationField(
-        help_text='How long does it take to make this? (HH:MM:SS)',
+    time_needed = forms.CharField(
+        max_length=Recipe.TIME_NEEDED_MAX_LENGTH,
+        help_text='How long does it take to make this? (HH:MM)',
         # idk how to change this honestly
     )
 
