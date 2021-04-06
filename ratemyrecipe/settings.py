@@ -35,7 +35,7 @@ DEBUG = True
 
 LOGIN_URL = 'ratemyrecipeapp:login'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['stokesevie.pythonanywhere.com']
 
 
 PASSWORD_HASHERS = (
