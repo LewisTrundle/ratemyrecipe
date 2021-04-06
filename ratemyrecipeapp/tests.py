@@ -250,7 +250,7 @@ class TrendingViewTests(TestCase):
         self.assertContains(
             response, 'Sorry, there are no recipes available now.'
         )
-        self.assertEqual(response.context['ratings'], [])
+        self.assertEqual(response.context['recipes'], {})
 
     def test_trending_view_with_one_recipe(self):
         '''
@@ -268,7 +268,7 @@ class TrendingViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Trending right now: Chocolate Cake')
 
-        recps_in_view = len(response.context['ratings'])
+        recps_in_view = len(response.context['recipes'])
 
         self.assertEqual(recps_in_view, 1)
 
@@ -278,7 +278,16 @@ class AddRecipeViewTests(TestCase):
         '''
         If a user has not logged in then redirect to the login page
         '''
-        pass
+        cat = create_category('Other')
+
+        url = reverse('ratemyrecipeapp:add_recipe', args=[cat.slug])
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response,
+            f'{reverse("ratemyrecipeapp:login")}?next={url}'
+        )
 
 
 class MyAcountViewTests(TestCase):
@@ -311,5 +320,3 @@ class MyAcountViewTests(TestCase):
         url = reverse('ratemyrecipeapp:recipes_ive_rated')
         self.assertContains(response, 'My Ratings')
         self.assertContains(response, url)
-
-# test recipes ive rated and my recipes too!
