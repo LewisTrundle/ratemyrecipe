@@ -10,6 +10,7 @@ from ratemyrecipeapp.forms import RecipeForm, UserForm, UserProfileForm
 from ratemyrecipe.settings import MEDIA_DIR
 import os
 from django.views.decorators.csrf import csrf_exempt
+from django.template.defaulttags import register
 
 
 
@@ -139,40 +140,39 @@ def chosen_recipe(request, category_name_slug, recipe_name_slug):
 
 def trending(request):
     context_dict = {}
+    recipe_ratings={}
+
     
-    # Creates two empty lists
-    pop_ratings = []
-    pop_recipes = []
-    
-    # Gets all the ratings in order of highest
-    highest_ratings = Rating.objects.order_by('-rating')
-    
-    # Goes through each rating and adds it to list if the recipe is not already there
-    for rating in highest_ratings:
-        recipe = Recipe.objects.get(title = rating.recipe.title)
-        if recipe not in pop_recipes:
-            pop_ratings.append(rating)
-            pop_recipes.append(recipe)
-     
-        
-    averages = []
-    for counter in range(0, len(pop_recipes)):
-        recipe = pop_recipes[counter]
-        ratings = Rating.objects.filter(recipe=recipe)
-        avg_rating_dict = ratings.aggregate(Avg('rating'))
-        avg_rating = avg_rating_dict['rating__avg']
-        
-        if avg_rating is None:
-            averages[counter] == 1
-        else:
-            averages.append(int(avg_rating))
-     
-    amount = 5
-    # Returns the top 5 ratings
-    
-    context_dict['ratings'] = pop_ratings[:amount]
-    context_dict['amount'] = amount
-    
+    for recipe in list(Recipe.objects.all()):
+        rating_score=0
+        no_rated=0
+        for rating in list(Rating.objects.filter(recipe=recipe)):
+            rating_score+=rating.rating
+            no_rated+=1
+        try:
+            recipe_ratings[recipe]=(int(rating_score/no_rated))
+        except:
+            #recipe not added
+            pass
+
+    #amount of recipes to show
+    amount=5
+    sorted_values = sorted(recipe_ratings.values(), reverse=True)# Sort the values
+    print(sorted_values)
+    recipes = {}
+
+    for i in range(amount):
+        for k in recipe_ratings.keys():
+            if recipe_ratings[k] == max(sorted_values):
+                recipes[k] = recipe_ratings[k]
+                del recipe_ratings[k]
+                sorted_values.remove(max(sorted_values))
+                break
+
+    context_dict['recipes']=recipes
+    context_dict['amount']=amount
+   
+
     return render(request, 'ratemyrecipeapp/trending.html', context=context_dict)
     
     
@@ -190,7 +190,7 @@ def add_recipe(request, category_name_slug):
     if request.method == 'POST':
         form = RecipeForm(request.POST,request.FILES)
         u=request.user
-        user=UserProfile.objects.get(id=u.id)
+        user=UserProfile.objects.get(user_id=u.id)
         if form.is_valid():
             recipe = form.save(commit=False)
             recipe.added_by=user
