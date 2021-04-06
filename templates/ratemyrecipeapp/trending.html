@@ -30,44 +30,64 @@ Trending Recipe - Rate My Recipe
 <div class="card text-white bg-secondary my-5 py-4 text-center">
 			<h1 class="text-white m-0"><u>Showing the top <b>{{amount}}</b> recipes</u></h1>
 </div>
-{% for r in ratings %}
+{% for k,v in recipes.items %}
     		<div class="card text-white bg-secondary my-5 py-4 text-center">
-    			<div class="card-body">
-    			<h1 class="text-white m-0">Trending right now: {{ r.recipe.title }} </h1>
-				
-				<span id="hidden">
-				<p id="avgrating">{{ r.rating }}</p>
-				</span>
-				<div class="stars">
-            				<span class="fa fa-star fa-3x"></span>
-					<span class="fa fa-star fa-3x"></span>
-					<span class="fa fa-star fa-3x"></span>
-					<span class="fa fa-star fa-3x"></span>
-					<span class="fa fa-star fa-3x"></span>
-				</div>
-				
-    			<p class="text-white m-0">Is vegan: {{ r.recipe.is_vegan }}</p>
-    			<p class="text-white m-0">Is vegetarian: {{ r.recipe.is_vegetarian }}</p>
-    			</div>
+                <div class="card-body">
+                    <h1 class="text-white m-0">Trending right now: {{ k.title }} </h1>
+
+
+                    <div class="stars">
+                        {% if v == 5 %}
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x checked"></span>
+                        {% elif v == 4 %}
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x"></span>
+                        {% elif v == 3 %}
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x"></span>
+                        <span class="fa fa-star fa-3x"></span>
+                        {% elif v == 2 %}
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x "></span>
+                        <span class="fa fa-star fa-3x"></span>
+                        <span class="fa fa-star fa-3x"></span>
+                        {% elif v == 1 %}
+                        <span class="fa fa-star fa-3x checked"></span>
+                        <span class="fa fa-star fa-3x"></span>
+                        <span class="fa fa-star fa-3x"></span>
+                        <span class="fa fa-star fa-3x"></span>
+                        <span class="fa fa-star fa-3x"></span>
+                        {% endif %}
+
+                    </div>
+                    <p class="text-white m-0">Is vegan: {{ k.is_vegan }}</p>
+                    <p class="text-white m-0">Is vegetarian: {{ k.is_vegetarian }}</p>
+                </div>
     		</div>
     		
     		<div class="row align-items-center my-5">
-    			<img src="/media/{{ r.recipe.picture }}" width="70%" height="350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /></img>
+    			<img src="/media/{{ k.picture }}" width="70%" height="350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /></img>
     		</div>
     		<div>
     			<h3>Ingredients:</h3>
-    				<p class="text-black m-0">Cost:{{ r.recipe.cost }}</p>
-    				<p class="text-black m-0">{{ r.recipe.ingredients }}</p>
+    				<p class="text-black m-0">Cost: {{ k.cost }}</p>
+    				<p class="text-black m-0">{{ k.ingredients }}</p>
     		</div>
     		<div>
     			<h3>Method:</h3>
 
-    				<p class="text-black m-0">Time: {{ rating.recipe.time_needed }}</p>
-    				<p class="text-black m-0">{{ rating.recipe.directions }}</p>
-
-  
-    				<p class="text-black m-0">{{ r.recipe.directions }}</p>
-
+    				<p class="text-black m-0">Time: {{ k.time_needed }}</p>
+    				<p class="text-black m-0">{{ k.directions }}</p>
     				
     		</div>
     		
