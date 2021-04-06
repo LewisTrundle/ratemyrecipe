@@ -276,7 +276,7 @@ class TrendingViewTests(TestCase):
 class AddRecipeViewTests(TestCase):
     def test_add_recipe_view_only_works_with_authenticated_users(self):
         '''
-        If a user has not logged in then redirect to the login page
+        If a user has not logged in, then redirect to the login page
         '''
         cat = create_category('Other')
 
@@ -320,3 +320,117 @@ class MyAcountViewTests(TestCase):
         url = reverse('ratemyrecipeapp:recipes_ive_rated')
         self.assertContains(response, 'My Ratings')
         self.assertContains(response, url)
+
+
+class MyRecipesViewTests(TestCase):
+    def test_my_recipes_view_only_works_with_authenticated_users(self):
+        '''
+        If the user has not logged in, redirect to the login page
+        '''
+        url = reverse('ratemyrecipeapp:my_recipes')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response,
+            f'{reverse("ratemyrecipeapp:login")}?next={url}'
+        )
+
+    def test_my_recipes_view_with_no_recipes(self):
+        '''
+        If the user has not added any recipes, show an appropriate message
+        '''
+        usr = create_user()
+
+        self.client.force_login(usr.user)
+
+        response = self.client.get(reverse('ratemyrecipeapp:my_recipes'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "You haven't added any recipes.")
+        self.assertEqual(response.context['recipes'].count(), 0)
+
+    def test_my_recipes_view_shows_every_recipe_added_by_user(self):
+        '''
+        Show all the recipes added by the aunthenticated user
+        '''
+        usr = create_user()
+        cat1 = create_category('British')
+        cat2 = create_category('Asian')
+        rec1 = create_recipe('Fish and Chips', usr, cat1)
+        rec2 = create_recipe('Yorkshire Pudding', usr, cat1)
+        rec3 = create_recipe('Crispy Chicken Noodles', usr, cat2)
+        rec4 = create_recipe('Teriyaki Salmon', usr, cat2)
+
+        self.client.force_login(usr.user)
+
+        response = self.client.get(reverse('ratemyrecipeapp:my_recipes'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Fish and Chips')
+        self.assertContains(response, 'Yorkshire Pudding')
+        self.assertContains(response, 'Crispy Chicken Noodles')
+        self.assertContains(response, 'Teriyaki Salmon')
+
+        recps_in_view = len(response.context['recipes'])
+        self.assertEqual(recps_in_view, 4)
+
+
+class RecipesIveRatedViewTests(TestCase):
+    def test_recipes_ive_rated_view_only_works_with_authenticated_users(self):
+        '''
+        If the user has not logged in, redirect to the login page
+        '''
+        url = reverse('ratemyrecipeapp:recipes_ive_rated')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response,
+            f'{reverse("ratemyrecipeapp:login")}?next={url}'
+        )
+
+    def test_recipes_ive_rated_view_with_no_recipes(self):
+        '''
+        If the user has not rated any recipes, show an appropriate message
+        '''
+        usr = create_user()
+
+        self.client.force_login(usr.user)
+
+        response = self.client.get(
+            reverse('ratemyrecipeapp:recipes_ive_rated')
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "You haven't rated any recipes.")
+        self.assertEqual(response.context['ratings'].count(), 0)
+
+    def test_my_recipes_view_shows_every_recipe_added_by_user(self):
+        '''
+        Show all the recipes added by the aunthenticated user
+        '''
+        usr = create_user()
+        cat1 = create_category('British')
+        cat2 = create_category('Asian')
+        rec1 = create_recipe('Fish and Chips', usr, cat1)
+        rec2 = create_recipe('Crispy Chicken Noodles', usr, cat2)
+
+        rating1 = Rating.objects.create(
+            recipe=rec1, rated_by=usr, rating=3
+        )
+        rating2 = Rating.objects.create(
+            recipe=rec2, rated_by=usr, rating=5
+        )
+
+        self.client.force_login(usr.user)
+
+        response = self.client.get(
+            reverse('ratemyrecipeapp:recipes_ive_rated'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Fish and Chips')
+        self.assertContains(response, 'Crispy Chicken Noodles')
+
+        recps_in_view = len(response.context['ratings'])
+        self.assertEqual(recps_in_view, 2)
