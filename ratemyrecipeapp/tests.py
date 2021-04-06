@@ -13,8 +13,8 @@ def create_category(name):
 
 
 def create_user():
-    u = User.objects.create(username='test-user', password='testing1234')
-    usr = UserProfile.objects.create(user=u)
+    # u = User.objects.create(username='test-user', password='testing1234')
+    usr = UserProfile.objects.create(user=create_django_user())
     return usr
 
 
@@ -172,7 +172,7 @@ class CategoriesViewTests(TestCase):
 class ChosenCategoryViewTests(TestCase):
     def test_chosen_category_view_with_no_recipes(self):
         '''
-        if there are no recipe in the current category, display an appropriate error message
+        If there are no recipe in the current category, display an appropriate error message
         '''
         c = create_category('Asian')
 
@@ -188,7 +188,7 @@ class ChosenCategoryViewTests(TestCase):
 
     def test_chosen_category_with_recipes(self):
         '''
-        all the recipes in a certain category must appear
+        All the recipes in a certain category must appear
         '''
         cat = create_category('Asian')
         usr = create_user()
@@ -227,7 +227,7 @@ class ChosenCategoryViewTests(TestCase):
 
     def test_chosen_category_view_with_non_authenticated_users_ask_for_log_in(self):
         '''
-        if the user has not logged in, the button says 'log in'
+        If the user has not logged in, the button says 'log in'
         '''
         cat = create_category('British')
 
@@ -241,27 +241,75 @@ class ChosenCategoryViewTests(TestCase):
 
 class TrendingViewTests(TestCase):
     def test_trending_view_with_no_recipes(self):
-        # if there are no recipes, show an appropriate message
-        pass
+        '''
+        If there are no recipes, show an appropriate message
+        '''
+        response = self.client.get(reverse('ratemyrecipeapp:trending'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response, 'Sorry, there are no recipes available now.'
+        )
+        self.assertEqual(response.context['ratings'], [])
 
     def test_trending_view_with_one_recipe(self):
-        # if there is only one recipe, this should be the only recipe shown in trending
-        pass
+        '''
+        If there is only one recipe, this should be the only recipe shown in trending
+        '''
+        rec = create_recipe_2('Chocolate Cake')
+        u = User.objects.create(username='user1', password='unique123')
+        usr = UserProfile.objects.create(user=u)
+        rating = Rating.objects.create(
+            recipe=rec, rated_by=usr, rating=3
+        )
+
+        response = self.client.get(reverse('ratemyrecipeapp:trending'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Trending right now: Chocolate Cake')
+
+        recps_in_view = len(response.context['ratings'])
+
+        self.assertEqual(recps_in_view, 1)
 
 
 class AddRecipeViewTests(TestCase):
     def test_add_recipe_view_only_works_with_authenticated_users(self):
-        # if a user has not logged in then redirect to the login page
+        '''
+        If a user has not logged in then redirect to the login page
+        '''
         pass
 
 
 class MyAcountViewTests(TestCase):
     def test_my_account_view_with_non_authenticated_user_asks_for_log_in(self):
-        # if the user has not logged in, then ask for log in/sign up
-        pass
+        '''
+        If the user has not logged in, then ask for log in/sign up
+        '''
+        response = self.client.get(reverse('ratemyrecipeapp:account'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Log In or Sign up here!')
 
     def test_my_account_view_with_authenticated_user_shows_recipes_added_and_rated(self):
-        # if the user has logged in, show links to the recipes ive rated and my recipes pages
-        pass
+        '''
+        If the user has logged in, show links to the recipes ive rated and my recipes pages
+        '''
+        cat = create_category('British')
+        usr = create_django_user()
+
+        self.client.force_login(usr)
+
+        response = self.client.get(reverse('ratemyrecipeapp:account'))
+
+        self.assertEqual(response.status_code, 200)
+
+        url = reverse('ratemyrecipeapp:my_recipes')
+        self.assertContains(response, 'My Recipes')
+        self.assertContains(response, url)
+
+        url = reverse('ratemyrecipeapp:recipes_ive_rated')
+        self.assertContains(response, 'My Ratings')
+        self.assertContains(response, url)
 
 # test recipes ive rated and my recipes too!
