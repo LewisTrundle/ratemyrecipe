@@ -190,7 +190,7 @@ def add_recipe(request, category_name_slug):
     if request.method == 'POST':
         form = RecipeForm(request.POST,request.FILES)
         u=request.user
-        user=UserProfile.objects.get(id=u.id)
+        user=UserProfile.objects.get(user_id=u.id)
         if form.is_valid():
             recipe = form.save(commit=False)
             recipe.added_by=user
