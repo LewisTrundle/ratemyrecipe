@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Category
@@ -16,6 +16,11 @@ def create_user():
     u = User.objects.create(username='test-user', password='testing1234')
     usr = UserProfile.objects.create(user=u)
     return usr
+
+
+def create_django_user():
+    u = User.objects.create(username='test-user', password='testing1234')
+    return u
 
 
 def create_recipe(title, usr, cat):
@@ -205,12 +210,33 @@ class ChosenCategoryViewTests(TestCase):
         self.assertEqual(recps_in_view, 3)
 
     def test_chosen_category_view_with_authenticated_users_allows_to_add_a_recipe(self):
-        # if the user has logged in, then the button says 'add recipe'
-        pass
+        '''
+        If the user has logged in, then the button says 'add recipe'
+        '''
+        cat = create_category('British')
+        usr = create_django_user()
+
+        self.client.force_login(usr)
+
+        response = self.client.get(
+            reverse('ratemyrecipeapp:chosen_category', args=[cat.slug])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, f'Add a recipe to {cat.name}')
 
     def test_chosen_category_view_with_non_authenticated_users_ask_for_log_in(self):
-        # if the user has not logged in, the button says 'log in'
-        pass
+        '''
+        if the user has not logged in, the button says 'log in'
+        '''
+        cat = create_category('British')
+
+        response = self.client.get(
+            reverse('ratemyrecipeapp:chosen_category', args=[cat.slug])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, f'Log in to add a recipe to {cat.name}')
 
 
 class TrendingViewTests(TestCase):
@@ -218,7 +244,7 @@ class TrendingViewTests(TestCase):
         # if there are no recipes, show an appropriate message
         pass
 
-    def test_treding_view_with_one_recipe(self):
+    def test_trending_view_with_one_recipe(self):
         # if there is only one recipe, this should be the only recipe shown in trending
         pass
 
