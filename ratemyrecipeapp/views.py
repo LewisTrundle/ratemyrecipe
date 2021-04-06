@@ -319,7 +319,7 @@ def rate_recipe(request):
 
 
 
-
+@login_required
 def my_recipes(request):
     u = request.user
     user = UserProfile.objects.get(user=u)
@@ -332,7 +332,7 @@ def my_recipes(request):
     return render(request, 'ratemyrecipeapp/my_recipes.html', context=context_dict)
 
 
-
+@login_required
 def recipes_ive_rated(request):
     # Gets the user profile
     u = request.user
